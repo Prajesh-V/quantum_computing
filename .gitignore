@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Tooling / editor
+.freebuff/
+.cloud-attachments/
+.vscode/
+.idea/
+.DS_Store
+
+# Note: results/ and results.csv are committed on purpose - they are the
+# recorded output of the committed code, so results can be read without running.
