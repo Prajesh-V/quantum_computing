@@ -1,0 +1,59 @@
+{
+  "phase": 3,
+  "model": "transverse-field Ising chain, open boundary",
+  "hamiltonian": "H = -J sum Z_iZ_{i+1} - h sum X_i",
+  "J": 1.0,
+  "h": 1.0,
+  "t": 1.0,
+  "initial_state": "0000 (|00...0>, the Phase 1 convention)",
+  "system_sizes": [
+    4,
+    5,
+    6
+  ],
+  "trotter_orders": [
+    1,
+    2
+  ],
+  "trotter_steps": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    8,
+    12,
+    16,
+    24,
+    32,
+    64,
+    128,
+    256,
+    512
+  ],
+  "gate_noise_levels": [
+    0.0001,
+    0.0005,
+    0.001,
+    0.005,
+    0.01
+  ],
+  "global_noise_levels": [
+    0.0001,
+    0.0005,
+    0.001,
+    0.005,
+    0.01
+  ],
+  "noise_convention": "p_1 and p_2 are total non-identity Pauli probabilities per gate; p_g is applied once per Trotter step and is not comparable to p_1 or p_2",
+  "rz_noise": "same as RX (p_1); rz_noiseless=False",
+  "reference_noise": 0.001,
+  "sensitivity_point": {
+    "system_size": 4,
+    "trotter_steps": 16,
+    "trotter_order": 2
+  },
+  "deterministic": true,
+  "random_seed": null,
+  "note": "noise parameters are illustrative simulation parameters, not measured hardware error rates"
+}

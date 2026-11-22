@@ -35,6 +35,7 @@ every figure in this file.
 15. [Where to change the code](#15-where-to-change-the-code)
 16. [Circuit-level resource estimation (Phase 1)](#16-circuit-level-resource-estimation-phase-1)
 17. [Accuracy versus circuit resources (Phase 2)](#17-accuracy-versus-circuit-resources-phase-2)
+18. [Noise and the optimal step count (Phase 3)](#18-noise-and-the-optimal-step-count-phase-3)
 
 ---
 
@@ -218,10 +219,20 @@ quantum_computing/
 │   ├── plotting.py             # the ten Phase 2 figures
 │   ├── report.py               # phase2_report.md + phase2_summary.json
 │   └── run_phase2.py           # driver
+├── noise/                      # Phase 3: density matrices + depolarising noise
+│   ├── density_matrix.py       # representation, local operators, diagnostics
+│   ├── channels.py             # global / single-qubit / two-qubit depolarising
+│   ├── noisy_simulator.py      # chronological noisy execution of the Phase 1 circuit
+│   ├── metrics.py              # fidelity, infidelity, trace distance
+│   ├── experiments.py          # sweeps, sensitivity grid, optimal-r search
+│   ├── plotting.py             # the twelve Phase 3 figures
+│   ├── report.py               # phase3_report.md + phase3_summary.json
+│   └── run_phase3.py           # driver, starting with the validation stage
 ├── conftest.py                 # makes the project importable for pytest
 ├── tests/
 │   ├── test_circuit_cost.py    # 48 tests: counts, validation, scheduling, reports, regression
-│   └── test_phase2.py          # 30 tests: loading, comparisons, targets, scaling, floor
+│   ├── test_phase2.py          # 30 tests: loading, comparisons, targets, scaling, floor
+│   └── test_phase3.py          # 69 tests: density matrices, channels, gates, metrics, optimal r
 ├── README.md                   # this file
 ├── results.csv                 # main data table, 220 rows (+ header), 7 columns
 └── results/
@@ -242,13 +253,22 @@ quantum_computing/
     ├── trotter_number.csv      # 12 rows: r(eps) for n = 2...7, both orders
     ├── circuit_resources.csv   # 132 rows: error + CNOT/RX/RZ/depth per (n, r, order)
     ├── circuit_reports.json    # 16 structured resource reports
-    └── phase2/                 # Phase 2 outputs, never mixed with Phase 1
-        ├── error_vs_cnot.png ... depth_vs_qubits.png   # 10 figures
-        ├── minimum_resources_for_accuracy.csv          # 48 rows
-        ├── resource_efficiency.csv                     # 216 rows
-        ├── supplementary_sweep.csv                     # 84 extra measurements, r>200
-        ├── phase2_summary.json
-        └── phase2_report.md
+    ├── phase2/                 # Phase 2 outputs, never mixed with Phase 1
+    │   ├── error_vs_cnot.png ... depth_vs_qubits.png   # 10 figures
+    │   ├── minimum_resources_for_accuracy.csv          # 48 rows
+    │   ├── resource_efficiency.csv                     # 216 rows
+    │   ├── supplementary_sweep.csv                     # 84 extra measurements, r>200
+    │   ├── phase2_summary.json
+    │   └── phase2_report.md
+    └── phase3/                 # Phase 3 outputs, never mixed with Phases 1-2
+        ├── configs/experiment_config.json
+        ├── figures/fig01_..._fig12_...png              # 12 figures
+        ├── global_noise_results.csv                    # 504 rows
+        ├── gate_noise_results.csv                      # 504 rows
+        ├── noise_sensitivity.csv                       # 70 rows
+        ├── optimal_r.csv                               # 72 configurations
+        ├── phase3_summary.json
+        └── phase3_report.md
 ```
 
 `trotter.py` is deliberately a single file (no package, no imports beyond the three libraries) so that it
@@ -1006,6 +1026,299 @@ Every figure is produced from measured data; nothing is sketched or hardcoded.
   connectivity, native gates) would change absolute depth and could change the depth-based ordering.
 * Only `n = 4, 5, 6` and `t = 1`, `J = h = 1`. Nothing is extrapolated beyond that, and the one selection
   sitting at `r = 30000` is marked as such.
+
+---
+
+## 18. Noise and the optimal step count (Phase 3)
+
+§17 produced a clean but slightly uncomfortable result: second order buys accuracy far more cheaply than
+first order. Every number in it, however, describes a circuit that makes **no error at all** apart from the
+formula's own truncation. Real gates are noisy, and noise grows with the number of gates. So the research
+question for this phase is:
+
+> **Once every gate carries an error, does adding Trotter steps still help — and is there a step count that
+> minimises the total error for a fixed evolution time?**
+
+More steps shrink the formula error (`1/r`, `1/r^2`) but add gates, and therefore add noise. If the second
+effect eventually wins, the total error has an **interior minimum**. That minimum is the central result of
+this phase, and it is measured rather than assumed: if it sits at an end of the tested grid, the tables say
+so.
+
+### 18.1 The three noise models
+
+All three are depolarising channels, chosen because they are the simplest thing that mixes a state without
+preferring any particular error direction.
+
+**Global depolarising**, applied once per complete Trotter step:
+
+```
+E_g(rho) = (1 - p_g) rho + p_g * I/d            d = 2^n
+```
+
+`p_g` is a **per-step** mixing probability. It is *not* comparable to a per-gate error rate: one step
+contains `O(n)` gates, so the same number means very different things in the two models. A single
+end-of-circuit application is also run, as a reference, and reported separately (it always prefers the
+largest `r`, since one channel cannot grow with the circuit).
+
+**Single-qubit Pauli depolarising**, after each RX and RZ:
+
+```
+E_1(rho) = (1 - p_1) rho + (p_1/3) (X rho X + Y rho Y + Z rho Z)
+```
+
+applied to that gate's target qubit only. `p_1` is the total probability of a non-identity Pauli, so each of
+X, Y, Z has `p_1/3`. One consequence is worth stating because it is easy to misread: `p_1 = 1` means "one of
+X, Y, Z for certain", which shrinks the Bloch vector to `-1/3` of its length, not to zero — complete
+depolarisation of a qubit is at `p_1 = 3/4`, where `1 - 4p_1/3` vanishes. The tests check that shrink law
+analytically. RZ can be configured separately (including as noiseless, for architectures with virtual Z);
+the default gives RX and RZ the same `p_1`.
+
+**Two-qubit Pauli depolarising**, after each CNOT:
+
+```
+E_2(rho) = (1 - p_2) rho + (p_2/15) sum_{P != II} P rho P
+```
+
+the 15 non-identity two-qubit Paulis on the control and target, with `p_2` their total probability.
+
+Summing `P rho P` over a whole Pauli group has the closed form `2^k Tr_k(rho) (x) I_k`, so the sum over
+non-identity Paulis is that expression minus `rho`. The fast path uses one partial trace; the tests also add
+up all 3 (or 15) terms explicitly from the definition and require agreement to machine precision. The
+`p/3` and `p/15` normalisations are separately pinned by the analytic Bloch-vector shrink factor and by a
+hand-built Pauli sum.
+
+### 18.2 Noise is applied to the actual Phase 1 gate list
+
+No second circuit decomposition is written. `noise.noisy_simulator` walks the ordered list from
+`circuit_cost.build_circuit` — the same CNOT/RZ/RX sequence that Phases 1 and 2 counted, merged second-order
+ZZ layers and half-angle rotations included — and applies the matching channel after each gate, on that
+gate's own qubits:
+
+```
+RX(q, theta) :  rho <- RX rho RX^dag   then  E_1 on q
+RZ(q, theta) :  rho <- RZ rho RZ^dag   then  E_1 on q
+CNOT(c, t)   :  rho <- CX rho CX^dag   then  E_2 on (c, t)
+```
+
+Gate application uses local `2x2`/`4x4` matrices through tensor reshapes and permutations, so one gate costs
+`O(4^k 2^n)` rather than the `O(8^n)` of a full `d^2 x d^2` superoperator, and memory is one `2^n x 2^n`
+matrix (32 KiB at `n = 6`). That is what makes a 512-step, 10 767-gate noisy circuit take about two seconds.
+
+The **step boundary** for the global model needs a stated convention, because the second-order half layers
+of neighbouring steps are merged and a step therefore does not end at a fixed offset in the gate list. A
+step is taken to end after the X block that closes it (order 1: after the ZZ block), with the final
+half-angle ZZ layer grouped into the last step. That gives exactly `r` channels for `r` steps, and the
+grouping is checked against the gate-list length on every simulated circuit.
+
+### 18.3 Validation performed before any noise result
+
+`run_phase3` refuses to continue if any of these fail:
+
+| Check | Result |
+|---|---|
+| Density-matrix walk vs the existing state-vector/Trotter propagator | `3.6e-16` max difference |
+| Gate circuit vs `trotter.trotter_unitary` (spectral norm) | `1.8e-15` |
+| Local gate matrices vs `circuit_cost.gate_matrix` | `0.0` |
+| Fast channel vs explicit Pauli sum | `5.6e-17` |
+| Compiled gate counts vs the Phase 1 closed forms (every row) | `0` |
+| Purity drift under ideal evolution | `4.8e-14` |
+| `p_g = 1` vs the maximally mixed `I/d` | `0.0` |
+| Worst `|Tr(rho) - 1|` over noisy validation states | `2.3e-14` |
+| Most negative eigenvalue over noisy validation states | `0.0` |
+| `p_1 = p_2 = 0` vs no channel at all | `0.0` |
+
+Trace, Hermiticity and positivity are checked on every state the validation stage produces, ideal and
+noisy, and the tolerances above are hard gates: the driver exits rather than report results from a state
+that is not a density matrix.
+
+### 18.4 The optimal step count (the central result)
+
+72 configurations were evaluated: 6 noise-free, 30 gate-level, 30 per-step global, 6 end-of-circuit.
+**60 have an interior minimum and 12 sit at a boundary — and all 12 boundary cases are either noise-free
+(`p = 0`, where more steps are always better) or the end-of-circuit reference (one channel regardless of
+`r`). Not one gate-level or per-step-global configuration has a boundary minimum.** The crossover is real.
+
+Gate-level optima, `t = 1`, `J = h = 1`, `|00...0>` start, `p_1 = p_2 = p`:
+
+| n | order | p | r_opt | fidelity | total error | formula error | noise error | CNOT | depth |
+|---|---|---|---|---|---|---|---|---|---|
+| 4 | 1 | `1e-4` | **12** | 0.9844 | `1.56e-2` | `3.36e-3` | `1.23e-2` | 72 | 87 |
+| 4 | 1 | `5e-4` | **6** | 0.9562 | `4.38e-2` | `1.37e-2` | `3.07e-2` | 36 | 45 |
+| 4 | 1 | `1e-3` | **4** | 0.9288 | `7.12e-2` | `3.19e-2` | `4.10e-2` | 24 | 31 |
+| 4 | 1 | `5e-3` | **3** | 0.8053 | `1.95e-1` | `5.99e-2` | `1.46e-1` | 18 | 24 |
+| 4 | 1 | `1e-2` | **3** | 0.6918 | `3.08e-1` | `5.99e-2` | `2.68e-1` | 18 | 24 |
+| 4 | 2 | `1e-4` | **4** | 0.9927 | `7.33e-3` | `2.49e-3` | `4.85e-3` | 30 | 37 |
+| 4 | 2 | `5e-4` | **4** | 0.9736 | `2.64e-2` | `2.49e-3` | `2.40e-2` | 30 | 37 |
+| 4 | 2 | `1e-3` | **3** | 0.9545 | `4.55e-2` | `8.27e-3` | `3.76e-2` | 24 | 30 |
+| 4 | 2 | `5e-3` | **2** | 0.8282 | `1.72e-1` | `4.78e-2` | `1.31e-1` | 18 | 23 |
+| 4 | 2 | `1e-2` | **2** | 0.7220 | `2.78e-1` | `4.78e-2` | `2.44e-1` | 18 | 23 |
+| 5 | 1 | `1e-4` | **8** | 0.9803 | `1.97e-2` | `9.07e-3` | `1.08e-2` | 64 | 62 |
+| 5 | 1 | `5e-4` | **6** | 0.9447 | `5.53e-2` | `1.62e-2` | `4.00e-2` | 48 | 48 |
+| 5 | 1 | `1e-3` | **4** | 0.9119 | `8.81e-2` | `3.72e-2` | `5.33e-2` | 32 | 34 |
+| 5 | 1 | `5e-3` | **3** | 0.7595 | `2.41e-1` | `6.90e-2` | `1.87e-1` | 24 | 27 |
+| 5 | 1 | `1e-2` | **2** | 0.6224 | `3.78e-1` | `1.81e-1` | `2.46e-1` | 16 | 20 |
+| 5 | 2 | `1e-4` | **6** | 0.9903 | `9.69e-3` | `6.71e-4` | `9.03e-3` | 56 | 54 |
+| 5 | 2 | `5e-4` | **4** | 0.9652 | `3.48e-2` | `3.51e-3` | `3.14e-2` | 40 | 40 |
+| 5 | 2 | `1e-3` | **3** | 0.9399 | `6.01e-2` | `1.16e-2` | `4.92e-2` | 32 | 33 |
+| 5 | 2 | `5e-3` | **2** | 0.7768 | `2.23e-1` | `6.64e-2` | `1.70e-1` | 24 | 26 |
+| 5 | 2 | `1e-2` | **2** | 0.6484 | `3.52e-1` | `6.64e-2` | `3.08e-1` | 24 | 26 |
+| 6 | 1 | `1e-4` | **8** | 0.9754 | `2.46e-2` | `1.15e-2` | `1.33e-2` | 80 | 65 |
+| 6 | 1 | `5e-4` | **6** | 0.9317 | `6.83e-2` | `2.04e-2` | `4.92e-2` | 60 | 51 |
+| 6 | 1 | `1e-3` | **4** | 0.8916 | `1.08e-1` | `4.63e-2` | `6.56e-2` | 40 | 37 |
+| 6 | 1 | `5e-3` | **3** | 0.7110 | `2.89e-1` | `8.51e-2` | `2.25e-1` | 30 | 30 |
+| 6 | 1 | `1e-2` | **2** | 0.5562 | `4.44e-1` | `2.17e-1` | `2.96e-1` | 20 | 23 |
+| 6 | 2 | `1e-4` | **6** | 0.9880 | `1.20e-2` | `8.60e-4` | `1.12e-2` | 70 | 57 |
+| 6 | 2 | `5e-4` | **4** | 0.9569 | `4.31e-2` | `4.50e-3` | `3.88e-2` | 50 | 43 |
+| 6 | 2 | `1e-3` | **3** | 0.9255 | `7.45e-2` | `1.49e-2` | `6.07e-2` | 40 | 36 |
+| 6 | 2 | `5e-3` | **2** | 0.7283 | `2.72e-1` | `8.51e-2` | `2.06e-1` | 30 | 29 |
+| 6 | 2 | `1e-2` | **2** | 0.5820 | `4.18e-1` | `8.51e-2` | `3.67e-1` | 30 | 29 |
+
+### 18.5 Findings (all from the committed run)
+
+**1. An interior optimum exists in every gate-level configuration, and it moves down as noise grows.**
+`r_opt` spans `2 ... 12` for gate-level noise and falls monotonically with `p` in every one of the six
+`(n, order)` series: at `n = 4`, first order goes `12 -> 6 -> 4 -> 3 -> 3` as `p` goes `1e-4 -> 1e-2`.
+Interpretation (not measured): fewer, larger steps mean fewer noisy operations, so the useful circuit depth
+shrinks as the error rate rises.
+
+**2. The optimum is nearly independent of system size, which is not obvious.** Of the ten
+`(order, noise level)` groups, seven give exactly the same `r_opt` for all three chain lengths; the other
+three differ by at most one grid step (`12 -> 8 -> 8` at first order and `p = 1e-4`, `3 -> 2 -> 2` at first
+order and `p = 1e-2`, `4 -> 6 -> 6` at second order and `p = 1e-4`). Both the formula error and the number
+of gates per step grow with `n`, so the two effects very nearly cancel.
+
+**3. Overshooting the optimum is expensive, and the formula is not what fails.** At `n = 4`, first order,
+`p = 1e-3`: the best point is `r = 4` with total error `7.1e-2` using 52 gates; `r = 512` gives error
+`0.925` — **13x worse for 128x the CNOTs**, even though its formula error is down to `1.8e-6`. The gates,
+not the formula, are the limit.
+
+**4. Second order keeps a smaller optimum *and* a smaller minimum.** At `n = 4`, `p = 1e-3`, both orders
+spend the same 24 CNOTs: first order peaks at `r = 4` with error `7.1e-2`, second order at `r = 3` with
+`4.6e-2` — 36% lower error for the same CNOT budget. `r_opt` for second order is never larger than for
+first order at the same noise level.
+
+**5. The two error sources really do meet.** At all 30 gate-level optima the noise term is the larger of the
+two, by a factor between 1.2 and 13.5. At the weakest noise the balance is almost even (`n = 4`, order 1:
+formula `3.4e-3`, noise `1.2e-2`); at the strongest the optimum is set almost entirely by noise.
+
+**6. Global and gate-level models give very different optima.** The global model charges once per step, so
+its optimum sits further out and depends on `p_g` almost alone: at `n = 6`, first order gives
+`r_opt = 24, 16, 12, 6, 6` for `p_g = 1e-4 ... 1e-2`, with the minimum at `3.7e-3` for the weakest noise.
+The gate-level model charges every gate, so its optima are much smaller (`2 ... 12`) and shift with `n`. The
+end-of-circuit reference always minimises at the largest `r` (`512`), exactly as it must.
+
+**7. Second order's advantage is bounded by noise, not universal — and that is the sharpest result here.**
+At `p = 1e-3` second order has the lower total error in only **13 of 42** matched-CNOT comparisons, and all
+13 sit at `r <= 8`. Two different effects produce the losses, and neither is the formula:
+
+* In **9 of the 42** pairs the smaller per-step overhead (`2(n-1)` CNOTs) lets **first order afford one
+extra Trotter step** at the same CNOT budget, which is decisive at small `r`. Noise-free that extra step is
+not enough (Phase 2 measured 102/105 in second order's favour under the same rule); under noise it is.
+* In the rest the two circuits have the same `r` and sit above the crossover, where the formulas no longer
+separate and the marginally smaller first-order circuit accumulates slightly less noise.
+
+The win count therefore falls monotonically with the error rate: `38/42, 24/42, 15/42, 13/42, 6/42, 6/42`
+for `p = 0 ... 1e-2` (**102/252** pooled).
+
+At *equal* `r` the picture is the same story viewed the other way: at `n = 4`, `p = 1e-3`, second order wins
+for every `r <= 8` and then the two orders converge — beyond `r = 12` they differ by at most **2.8%** of the
+error, and at `r = 512` by 0.005%, a tie decided by nine gates.
+
+So Phase 2's headline is neither confirmed nor overturned under noise — it is **bounded**. Second order buys
+accuracy more cheaply only while the formula still dominates the error, which is at or below the optimal step
+count this phase recommends anyway. Above that point the circuit is so noisy that the choice of product
+formula stops mattering, and the decision falls to gate count.
+
+**8. Purity tracks mixing, not correctness.** At `n = 4`, `p = 1e-3`, `r = 512` the purity is `0.0634`
+against `1/16 = 0.0625` for the maximally mixed state: the circuit has scrambled the state into the
+maximally mixed state, and the fidelity against the exact state is `0.075` — almost entirely because of the
+noise, not the formula. Note that a state can also be pure and wrong: at `r = 1`, `p = 0` the purity is
+exactly 1 and the fidelity is `0.058`. Purity is a diagnostic, never a success measure.
+
+**9. Which gate class dominates depends on the gate counts, not on a slogan.** At `r = 16`, `n = 4`,
+`p = 1e-3`: charging the error to CNOTs only gives total error `8.0e-2`, to RX/RZ only `8.3e-2` — comparable,
+because this circuit has 102 CNOTs and 115 single-qubit gates. Per gate a CNOT costs slightly more error
+(`7.9e-4` vs `7.2e-4`), so with both classes noisy the total (`1.6e-1`) is slightly *below* the sum of the
+two slices. The gate-count balance is reported instead of a claim that one class dominates.
+
+**10. The three errors are not additive.** Over all 504 gate-level configurations the largest discrepancy
+between `total_error` and `formula + noise` is `0.24` — the sum overcounts badly once both terms are large,
+because fidelity is not linear. Each of the three is reported separately in every row.
+
+### 18.6 Outputs
+
+| file | contents |
+|---|---|
+| `fig01_fidelity_vs_steps.png` | fidelity vs `r`, ideal and gate-level noisy, both orders, one panel per `n` |
+| `fig02_trotter_error_vs_steps.png` | the noise-free formula error alone, both orders, three sizes |
+| `fig03_noise_error_vs_steps.png` | error contributed by the channels alone, per order |
+| `fig04_total_error_vs_steps.png` | total error at several noise strengths — the crossing |
+| `fig05_fidelity_vs_cnot.png`, `fig06_fidelity_vs_total_gates.png` | the same data against the Phase 1 cost axes |
+| `fig07_order_comparison_gate_noise.png` | first vs second order at matched CNOT cost, noise-free reference dotted |
+| `fig08_global_vs_gate_noise.png` | the two noise models side by side |
+| `fig09_optimal_r_vs_noise.png` | measured `r_opt` vs noise strength, one panel per model |
+| `fig10_sensitivity_heatmap.png` | total error over the `(p_1, p_2)` grid, plus the two single-class slices |
+| `fig11_purity_vs_steps.png` | purity vs `r` with the maximally mixed line |
+| `fig12_total_error_vs_depth.png` | total error against the conservative logical depth |
+| `gate_noise_results.csv` | 504 rows: every gate-level configuration with all metrics |
+| `global_noise_results.csv` | 504 rows: per-step and end-of-circuit global runs |
+| `noise_sensitivity.csv` | 70 rows: the `(p_1, p_2)` grid and the two slices, at `r = 16` |
+| `optimal_r.csv` | 72 configurations: `r_opt`, status, resources, and the three errors at the optimum |
+| `phase3_summary.json` | the whole analysis, strict JSON (non-finite values become `null`) |
+| `phase3_report.md` | the generated report, with the full tables |
+
+Every row records `cnot_count`, `rx_count`, `rz_count`, `total_gate_count`, `logical_depth`,
+`two_qubit_depth`, `fidelity`, `purity`, `trace_distance`, `magnetization`, `zz_correlation` and the three
+error measures, so any figure can be rebuilt from the CSV alone.
+
+### 18.7 How to run it, and what was verified
+
+```bash
+python -m noise.run_phase3              # validation, sweeps, figures, report (~3.5 min)
+python -m noise.run_phase3 --no-plots   # tables and report only (~3 min)
+python -m noise.run_phase3 --quick      # small grid, smoke test (~10 s)
+python -m pytest tests/ -q              # the whole suite
+```
+
+There is no randomness anywhere in Phase 3, so repeated runs produce identical CSVs.
+
+* `python -m pytest tests/ -q` -> **147 tests pass**: the 78 from Phases 1-2 plus 69 Phase 3 tests.
+  They cover density matrices (outer-product construction, trace, Hermiticity, positivity, purity under
+  unitary evolution, agreement with the state-vector simulator through `trotter.sweep`'s own infidelity
+  numbers), channels (zero noise, `p_g = 1`, trace and positivity, out-of-range/NaN/infinite parameters,
+  correct target qubits, the full Pauli-group sum, the analytic Bloch shrink factor, permutation
+  covariance for a non-adjacent pair), the gate-level path (gate counts identical to Phase 1, channel after
+  every nonzero gate, RZ made noiseless, merged second-order layers still reproducing the unitary,
+  zero-angle policy, one global channel per step with the ranges covering the gate list exactly), metrics
+  (identical and orthogonal pure states, a hand-computed `0.775`, purity of pure and mixed states, trace
+distance, magnetization and ZZ correlation against independent matrix traces), and the experiment layer
+  (optimal `r` taken only from evaluated candidates, boundary minima labelled, reproducible rows, invalid
+  configurations rejected).
+* Phase 1 and Phase 2 outputs are byte-identical after a full Phase 3 run (a test hashes them before and
+  after). `trotter.py`, `circuit_cost.py` and `analysis/` are not modified by this phase.
+* Every figure was inspected after generation; the four that had layout defects (an unreadable log axis on
+  `fig09`, two system sizes mixed into one panel on `fig10`, an annotation colliding with the legend on
+  `fig11`, and the wrong reference level on `fig08`) were fixed and re-inspected.
+
+### 18.8 What Phase 3 does not claim
+
+* **Not a hardware model.** The `p` values are illustrative simulation parameters spanning weak to strong
+  noise. They are not measured error rates and nothing here describes IBM or any other processor.
+* **No T1, T2, readout, crosstalk, leakage, connectivity, routing, decoupling, mitigation or error
+  correction.** Every channel is applied independently, which is optimistic compared with a real device
+  where one miscalibration affects a whole gate class at once.
+* **No extrapolation.** `r_opt` is the argmin over step counts that were actually simulated; the 12 boundary
+  cases are labelled as boundary cases. Nothing is fitted through or beyond the grid.
+* **Small systems only.** Density matrices are in the way: `n = 4, 5, 6` at these step counts. Reaching
+  larger `n` needs matrix-product operators or a stochastic (quantum-trajectory) method, not a bigger
+  matrix.
+* **The optimal `r` found here is optimal for this error model.** A different channel, or coherent
+  (unital vs non-unital) errors, would move the crossover.
+
+---
+
+*Phase 3 (noise): every number and figure in §18 is produced by `python -m noise.run_phase3`, with the
+written report at `results/phase3/phase3_report.md`.*
 
 ---
 
