@@ -30,6 +30,8 @@ import trotter
 
 from .channels import (apply_global_depolarizing, depolarize_qubits,
                        validate_probability)
+from .relaxation import (apply_kraus_channel, thermal_relaxation_kraus,
+                         two_qubit_relaxation_channel)
 from .density_matrix import (apply_operator, basis_density_matrix, num_qubits,
                              pure_density_matrix)
 
@@ -55,7 +57,7 @@ CNOT = np.array(
      [0.0, 0.0, 0.0, 1.0],
      [0.0, 0.0, 1.0, 0.0]], dtype=complex)
 
-NOISE_KINDS = ("none", "global_per_step", "global_end_of_circuit", "gate")
+NOISE_KINDS = ("none", "global_per_step", "global_end_of_circuit", "gate", "relaxation")
 
 
 # ---------------------------------------------------------------------------
@@ -71,6 +73,7 @@ class NoiseModel:
         ``"global_per_step"``       global depolarising channel after every Trotter step
         ``"global_end_of_circuit"`` one global channel after the last gate
         ``"gate"``                  single-qubit channel after RX/RZ, two-qubit after CNOT
+        ``"relaxation"``            thermal relaxation (T1, T2) after each gate
 
     ``single_qubit_error`` / ``two_qubit_error``
         ``p_1`` and ``p_2``: the total probability of a non-identity Pauli after
@@ -81,6 +84,9 @@ class NoiseModel:
         Optional separate error for RZ (virtual-Z architectures).  ``None``
         means "use ``single_qubit_error``"; ``0.0`` makes RZ noiseless while
         leaving RX noisy.
+
+    ``t1`` / ``t2`` / ``gate_time_1q`` / ``gate_time_2q``
+        Physical parameters for ``"relaxation"`` models.
     """
 
     kind: str = "none"
@@ -88,6 +94,10 @@ class NoiseModel:
     two_qubit_error: float = 0.0
     global_probability: float = 0.0
     rz_error: float | None = None
+    t1: float = 50e-6
+    t2: float = 70e-6
+    gate_time_1q: float = 35e-9
+    gate_time_2q: float = 300e-9
 
     def __post_init__(self) -> None:
         if self.kind not in NOISE_KINDS:
@@ -97,6 +107,13 @@ class NoiseModel:
         validate_probability(self.global_probability, "p_g")
         if self.rz_error is not None:
             validate_probability(self.rz_error, "rz_error")
+        if self.kind == "relaxation":
+            if self.t1 <= 0 or self.t2 <= 0:
+                raise ValueError("T1 and T2 must be positive")
+            if self.t2 > 2.0 * self.t1 + 1e-14:
+                raise ValueError(f"T2 ({self.t2}) cannot exceed 2 * T1 ({2*self.t1})")
+            if self.gate_time_1q < 0 or self.gate_time_2q < 0:
+                raise ValueError("gate times must be non-negative")
 
     # -- convenience -------------------------------------------------------
     @property
@@ -106,6 +123,8 @@ class NoiseModel:
         if self.kind == "gate":
             return (self.single_qubit_error == 0.0 and self.two_qubit_error == 0.0
                     and (self.rz_error or 0.0) == 0.0)
+        if self.kind == "relaxation":
+            return self.gate_time_1q == 0.0 and self.gate_time_2q == 0.0
         return self.global_probability == 0.0
 
     def error_for(self, gate_type: str) -> float:
@@ -125,6 +144,8 @@ class NoiseModel:
         if self.kind == "global_end_of_circuit":
             return (f"global noise p_g={self.global_probability:g} "
                     "(one channel, end of circuit)")
+        if self.kind == "relaxation":
+            return f"thermal relaxation T1={self.t1*1e6:.1f}us, T2={self.t2*1e6:.1f}us"
         return "ideal (no noise)"
 
 
@@ -298,6 +319,17 @@ def simulate(n: int, r: int, order: int = 1, t: float = 1.0, J: float = 1.0,
             for gate in gates:
                 rho = apply_gate(rho, gate)
         ranges: list[tuple[int, int]] = []
+    elif model.kind == "relaxation":
+        kraus_1q = thermal_relaxation_kraus(model.gate_time_1q, model.t1, model.t2)
+        for gate in gates:
+            rho = apply_gate(rho, gate)
+            if gate.gate_type == "cnot":
+                rho = two_qubit_relaxation_channel(rho, gate.qubits, model.gate_time_2q, model.t1, model.t2)
+                channels += 1
+            else:
+                rho = apply_kraus_channel(rho, kraus_1q, (gate.qubits[0],))
+                channels += 1
+        ranges = []
     elif model.kind == "global_end_of_circuit":
         for gate in gates:
             rho = apply_gate(rho, gate)

@@ -249,12 +249,19 @@ def main(argv=None) -> int:
                              % ",".join(f"{p:g}" for p in experiments.NOISE_LEVELS))
     parser.add_argument("--steps", default=None,
                         help="comma-separated Trotter step counts")
+    parser.add_argument("--dense", action="store_true",
+                        help="use dense integer step grid up to r=16")
     args = parser.parse_args(argv)
 
     args.ns = [int(part) for part in args.ns.split(",") if part.strip()]
-    steps = (tuple(int(part) for part in args.steps.split(",") if part.strip())
-             if args.steps else
-             ((1, 2, 4, 8, 16) if args.quick else experiments.DEFAULT_STEPS))
+    if args.steps:
+        steps = tuple(int(part) for part in args.steps.split(",") if part.strip())
+    elif args.dense:
+        steps = experiments.DENSE_STEPS
+    elif args.quick:
+        steps = (1, 2, 4, 8, 16)
+    else:
+        steps = experiments.DEFAULT_STEPS
     if args.levels:
         levels = tuple(float(part) for part in args.levels.split(",") if part.strip())
     else:

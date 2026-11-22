@@ -1,0 +1,208 @@
+{
+  "phase": 5,
+  "completed": true,
+  "dense_optima": [
+    {
+      "system_size": 4,
+      "trotter_order": 1,
+      "trotter_steps": 4,
+      "noise_level": 0.001,
+      "total_error": 0.07119615434111926,
+      "ideal_trotter_error": 0.0319413377759572,
+      "noise_induced_error": 0.04095418682847751,
+      "cnot_count": 24,
+      "logical_depth": 31
+    },
+    {
+      "system_size": 4,
+      "trotter_order": 1,
+      "trotter_steps": 5,
+      "noise_level": 0.001,
+      "total_error": 0.06924653513993784,
+      "ideal_trotter_error": 0.01996762131430707,
+      "noise_induced_error": 0.050651201246253774,
+      "cnot_count": 30,
+      "logical_depth": 38
+    },
+    {
+      "system_size": 4,
+      "trotter_order": 1,
+      "trotter_steps": 6,
+      "noise_level": 0.001,
+      "total_error": 0.07278523251600222,
+      "ideal_trotter_error": 0.013697865489478378,
+      "noise_induced_error": 0.06025309114805599,
+      "cnot_count": 36,
+      "logical_depth": 45
+    },
+    {
+      "system_size": 4,
+      "trotter_order": 2,
+      "trotter_steps": 4,
+      "noise_level": 0.001,
+      "total_error": 0.049701143983219453,
+      "ideal_trotter_error": 0.0024941976758801054,
+      "noise_induced_error": 0.047359805124455256,
+      "cnot_count": 30,
+      "logical_depth": 37
+    },
+    {
+      "system_size": 4,
+      "trotter_order": 2,
+      "trotter_steps": 5,
+      "noise_level": 0.001,
+      "total_error": 0.057914843446860265,
+      "ideal_trotter_error": 0.000999097683650807,
+      "noise_induced_error": 0.05699333362244663,
+      "cnot_count": 36,
+      "logical_depth": 44
+    },
+    {
+      "system_size": 4,
+      "trotter_order": 2,
+      "trotter_steps": 6,
+      "noise_level": 0.001,
+      "total_error": 0.06695866107780435,
+      "ideal_trotter_error": 0.0004760055424086751,
+      "noise_induced_error": 0.0665282382843626,
+      "cnot_count": 42,
+      "logical_depth": 51
+    },
+    {
+      "system_size": 5,
+      "trotter_order": 1,
+      "trotter_steps": 4,
+      "noise_level": 0.001,
+      "total_error": 0.08809693912921834,
+      "ideal_trotter_error": 0.03717248812913898,
+      "noise_induced_error": 0.05333859600321711,
+      "cnot_count": 32,
+      "logical_depth": 34
+    },
+    {
+      "system_size": 5,
+      "trotter_order": 1,
+      "trotter_steps": 5,
+      "noise_level": 0.001,
+      "total_error": 0.08732203794428384,
+      "ideal_trotter_error": 0.02342492986125677,
+      "noise_induced_error": 0.06583911899859185,
+      "cnot_count": 40,
+      "logical_depth": 41
+    },
+    {
+      "system_size": 5,
+      "trotter_order": 1,
+      "trotter_steps": 6,
+      "noise_level": 0.001,
+      "total_error": 0.09271055366159897,
+      "ideal_trotter_error": 0.016170465315200833,
+      "noise_induced_error": 0.07818204830185582,
+      "cnot_count": 48,
+      "logical_depth": 48
+    },
+    {
+      "system_size": 5,
+      "trotter_order": 2,
+      "trotter_steps": 4,
+      "noise_level": 0.001,
+      "total_error": 0.0649902836125773,
+      "ideal_trotter_error": 0.0035084347971359175,
+      "noise_induced_error": 0.06175419390258452,
+      "cnot_count": 40,
+      "logical_depth": 40
+    },
+    {
+      "system_size": 5,
+      "trotter_order": 2,
+      "trotter_steps": 5,
+      "noise_level": 0.001,
+      "total_error": 0.07541517104555351,
+      "ideal_trotter_error": 0.0014066265642067588,
+      "noise_induced_error": 0.0741466399896149,
+      "cnot_count": 48,
+      "logical_depth": 47
+    },
+    {
+      "system_size": 5,
+      "trotter_order": 2,
+      "trotter_steps": 6,
+      "noise_level": 0.001,
+      "total_error": 0.08696610366666002,
+      "ideal_trotter_error": 0.0006704573768500088,
+      "noise_induced_error": 0.08637674049078692,
+      "cnot_count": 56,
+      "logical_depth": 54
+    },
+    {
+      "system_size": 6,
+      "trotter_order": 1,
+      "trotter_steps": 4,
+      "noise_level": 0.001,
+      "total_error": 0.10835030197790374,
+      "ideal_trotter_error": 0.04631580128651014,
+      "noise_induced_error": 0.06556233216348328,
+      "cnot_count": 40,
+      "logical_depth": 37
+    },
+    {
+      "system_size": 6,
+      "trotter_order": 1,
+      "trotter_steps": 5,
+      "noise_level": 0.001,
+      "total_error": 0.10734237713674966,
+      "ideal_trotter_error": 0.029387452721293617,
+      "noise_induced_error": 0.08078316299026034,
+      "cnot_count": 50,
+      "logical_depth": 44
+    },
+    {
+      "system_size": 6,
+      "trotter_order": 1,
+      "trotter_steps": 6,
+      "noise_level": 0.001,
+      "total_error": 0.11376994697928089,
+      "ideal_trotter_error": 0.02038159377985127,
+      "noise_induced_error": 0.09576789452139578,
+      "cnot_count": 60,
+      "logical_depth": 51
+    },
+    {
+      "system_size": 6,
+      "trotter_order": 2,
+      "trotter_steps": 4,
+      "noise_level": 0.001,
+      "total_error": 0.08001520519067218,
+      "ideal_trotter_error": 0.004502603375430736,
+      "noise_induced_error": 0.07593015739199116,
+      "cnot_count": 50,
+      "logical_depth": 43
+    },
+    {
+      "system_size": 6,
+      "trotter_order": 2,
+      "trotter_steps": 5,
+      "noise_level": 0.001,
+      "total_error": 0.09258074683237705,
+      "ideal_trotter_error": 0.0018042794813202256,
+      "noise_induced_error": 0.09098685511340354,
+      "cnot_count": 60,
+      "logical_depth": 50
+    },
+    {
+      "system_size": 6,
+      "trotter_order": 2,
+      "trotter_steps": 6,
+      "noise_level": 0.001,
+      "total_error": 0.10653888165902214,
+      "ideal_trotter_error": 0.0008597186458982886,
+      "noise_induced_error": 0.10580197886574583,
+      "cnot_count": 70,
+      "logical_depth": 57
+    }
+  ],
+  "trajectory_runs": 24,
+  "hardware_experiments": 8,
+  "routing_evaluations": 48,
+  "total_elapsed_seconds": 35.63
+}

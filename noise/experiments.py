@@ -31,6 +31,7 @@ from .noisy_simulator import (NoiseModel, exact_state, ideal_trotter_state,
 
 __all__ = [
     "DEFAULT_STEPS",
+    "DENSE_STEPS",
     "NOISE_LEVELS",
     "measure",
     "sweep",
@@ -48,6 +49,9 @@ __all__ = [
 #: Mixed grid: dense where the optimum of a flat low-noise curve lives, coarse
 #: where only the noise tail matters.  Chosen after timing the simulator.
 DEFAULT_STEPS = (1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 64, 128, 256, 512)
+
+#: Dense integer grid up to 16 to eliminate discrete grid artefacts:
+DENSE_STEPS = tuple(range(1, 17)) + (24, 32, 64, 128, 256, 512)
 
 #: Illustrative simulation parameters.  These are NOT measured hardware error
 #: rates and must not be read as device specifications.
