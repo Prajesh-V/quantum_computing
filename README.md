@@ -34,6 +34,7 @@ every figure in this file.
 14. [Limitations and possible extensions](#14-limitations-and-possible-extensions)
 15. [Where to change the code](#15-where-to-change-the-code)
 16. [Circuit-level resource estimation (Phase 1)](#16-circuit-level-resource-estimation-phase-1)
+17. [Accuracy versus circuit resources (Phase 2)](#17-accuracy-versus-circuit-resources-phase-2)
 
 ---
 
@@ -186,6 +187,15 @@ python -m pytest tests/ -q    # unit tests for the estimator (~2 s, 48 tests)
 `circuit_cost.py` reuses `trotter.tfim_terms` and `trotter.sweep` and does not modify the numerical
 error calculation in any way.
 
+Phase 2 analyses those resources against the measured errors:
+
+```bash
+python -m analysis.run_phase2                  # 10 figures, 4 data files, report (~5 s)
+python -m analysis.run_phase2 --write-supplement  # re-measure r = 240...30000 first
+```
+
+It only reads `results/circuit_resources.csv` and writes everything into `results/phase2/`.
+
 **Runtime: about 30 seconds** on a normal laptop (up to a minute on a slow machine). The `n`-scaling
 study and the round-off study dominate. Nothing is parallelised; results are deterministic, so two runs
 produce identical CSVs.
@@ -200,9 +210,18 @@ Expected console output ends with a table like the one in [§10.1](#101-the-slop
 quantum_computing/
 ├── trotter.py                  # the physics study: model, methods, experiments, plots (794 lines)
 ├── circuit_cost.py             # Phase 1: gate decomposition + resource estimation (~700 lines)
+├── analysis/                   # Phase 2: resource-versus-accuracy analysis
+│   ├── resource_analysis.py    # loading, schema/value validation, audit
+│   ├── comparison.py           # equal steps, equal CNOT/gate budgets, efficiency
+│   ├── scaling.py              # analytic formulas vs measured, exponents
+│   ├── accuracy_targets.py     # minimum resources for 1e-1 ... 1e-4
+│   ├── plotting.py             # the ten Phase 2 figures
+│   ├── report.py               # phase2_report.md + phase2_summary.json
+│   └── run_phase2.py           # driver
 ├── conftest.py                 # makes the project importable for pytest
 ├── tests/
-│   └── test_circuit_cost.py    # 48 tests: counts, validation, scheduling, reports, regression
+│   ├── test_circuit_cost.py    # 48 tests: counts, validation, scheduling, reports, regression
+│   └── test_phase2.py          # 30 tests: loading, comparisons, targets, scaling, floor
 ├── README.md                   # this file
 ├── results.csv                 # main data table, 220 rows (+ header), 7 columns
 └── results/
@@ -222,7 +241,14 @@ quantum_computing/
     ├── floor_study.csv         # 108 rows: error vs r up to 1e8
     ├── trotter_number.csv      # 12 rows: r(eps) for n = 2...7, both orders
     ├── circuit_resources.csv   # 132 rows: error + CNOT/RX/RZ/depth per (n, r, order)
-    └── circuit_reports.json    # 16 structured resource reports
+    ├── circuit_reports.json    # 16 structured resource reports
+    └── phase2/                 # Phase 2 outputs, never mixed with Phase 1
+        ├── error_vs_cnot.png ... depth_vs_qubits.png   # 10 figures
+        ├── minimum_resources_for_accuracy.csv          # 48 rows
+        ├── resource_efficiency.csv                     # 216 rows
+        ├── supplementary_sweep.csv                     # 84 extra measurements, r>200
+        ├── phase2_summary.json
+        └── phase2_report.md
 ```
 
 `trotter.py` is deliberately a single file (no package, no imports beyond the three libraries) so that it
@@ -847,5 +873,144 @@ for `r = 50` steps - the two end half-layers are charged to the run as a whole.
 *Project: Trotterisation error vs step count for spin chains. Pure `numpy` / `scipy` / `matplotlib`; one
 command; deterministic; every figure and number in this README is produced by `python trotter.py`.*
 
+## 17. Accuracy versus circuit resources (Phase 2)
+
+§16 established what a circuit costs. This section asks the research question that follows from it:
+
+> **How efficiently do the two product formulas buy accuracy when the budget is measured in quantum
+> circuit resources rather than in Trotter steps?**
+
+No new physics is simulated here: Phase 2 reads the errors Phase 1 measured and joins them to the gate
+counts Phase 1 computed. `results/circuit_resources.csv` is opened read-only (a test hashes it before and
+after a full run), and every output lands in `results/phase2/`.
+
+### 17.1 The data, and the one gap that had to be measured
+
+Audit of Phase 1 (§16.7): 132 rows, `n = 4, 5, 6`, both orders, `r = 1...200`, error strictly decreasing in
+`r` for all six configurations, every row carrying consistent `CNOT + RX + RZ = total` resources, no empty
+fields, no failed experiments.
+
+That data cannot answer the brief, because at `r = 200` first order is still at `6.9e-3 ... 1.1e-2`:
+the targets `1e-3` and `1e-4` are **unreachable inside the Phase 1 range**, and the equal-budget comparisons
+would all sit at coarse, pre-asymptotic step counts. Rather than extrapolate, Phase 2 adds a
+**supplementary measurement**: the unchanged `trotter.sweep` plus `circuit_cost.estimate_resources` at 14
+extra step counts `r = 240 ... 30000` for the same three chains, written to
+`results/phase2/supplementary_sweep.csv` (84 rows, clearly marked `source = supplementary`).
+
+It is a measurement, not an interpolation: those points are plotted as hollow markers in every figure, and
+`--no-supplement` reproduces the analysis on Phase 1 data alone. With it, the usable dataset is 216 rows
+over 36 step counts. **No point reaches the `1e-10` numerical floor** (smallest measured error `1.26e-9`),
+so every error discussed below is truncation error. Where a selection sits at the very edge of the measured
+range, the minimum-resource table says `at largest measured r`.
+
+### 17.2 Architecture
+
+| module | responsibility |
+|---|---|
+| `analysis/resource_analysis.py` | CSV loading with per-row validation (missing column, non-numeric, non-integer, `qubits != n`, `CNOT+RX+RZ != total`), audit, log-safe helper |
+| `analysis/comparison.py` | equal-step pairing, equal-budget selection, log-log interpolation, efficiency helpers |
+| `analysis/scaling.py` | closed-form gate counts (imported from `circuit_cost`), verification, empirical exponents |
+| `analysis/accuracy_targets.py` | minimum-resource search for `1e-1, 1e-2, 1e-3, 1e-4` |
+| `analysis/plotting.py` | the ten figures |
+| `analysis/report.py` | `phase2_summary.json` + `phase2_report.md`, generated from the numbers |
+| `analysis/run_phase2.py` | driver, including the supplementary measurement |
+
+Bad rows are never repaired: they are dropped and recorded with their line number and reason. A malformed
+CSV is refused with a `SchemaError` naming the missing columns.
+
+### 17.3 Findings (all from the committed run)
+
+**1. Error falls as a power of the CNOT count, and the exponents differ by exactly the expected factor.**
+Fitting `log(error)` against `log(CNOT)` gives slopes `-1.01` (first order) and `-2.07` (second order),
+averaged over `n = 4, 5, 6`. One extra decade of accuracy therefore costs about `9.9x` more CNOTs at first
+order but only `3.0x` at second order.
+
+**2. At equal step count, second order is far more accurate for a nearly free fixed overhead.** At `r = 200`,
+`n = 4`: error drops from `6.9e-3` to `2.8e-5` (**243x**) while CNOTs go from `1200` to `1206` (`+0.5%`) and
+total gates from `2600` to `2609` (`+0.35%`). The overhead is `2(n-1)` CNOTs and `3(n-1)` gates - a
+constant, not a per-step cost - so it vanishes as a fraction: `+0.003%` CNOTs at `r = 30000`. Across all
+configurations the improvement factor spans `1.03x` (at `r = 1`, where the formulas have not separated yet)
+to `3.6e4` (at `r = 30000`), median `113x`.
+
+**3. At equal CNOT or equal total-gate budgets, second order wins almost everywhere.** Comparing at 105
+matched budgets per metric, second order gives the lower error in **102 of 105**, by `32%` to more than
+`99.99%` (median `99.1%`). The three exceptions are all at `r = 1`: there the `2(n-1)` fixed overhead spends
+gates that the first-order circuit converts into an extra step instead, so order 1 is briefly better. This is
+the one place where the ranking reverses, and it is reported rather than smoothed away.
+
+**4. For a fixed achieved accuracy, second order needs 70-99% fewer resources.** From the minimum-resource
+table (cheapest configuration by CNOT count):
+
+| n | target | 1st order: r / CNOT / gates | 2nd order: r / CNOT / gates | gate saving |
+|---|---|---|---|---|
+| 4 | `1e-3` | 1537 / 9222 / 19981 | 37 / 228 / 490 | 97.5% |
+| 5 | `1e-3` | 2229 / 17832 / 37893 | 45 / 368 / 777 | 97.9% |
+| 6 | `1e-3` | 3231 / 32310 / 67851 | 45 / 460 / 960 | 98.6% |
+| 6 | `1e-4` | 30000 / 300000 / 630000 | 162 / 1630 / 3417 | 99.5% |
+
+**5. Resources are exactly linear in bonds and in steps, and depth is almost independent of `n`.** All 216
+rows match the closed forms `2r(n-1)`, `r(4n-3)`, `2(r+1)(n-1)`, `3(r+1)(n-1)+rn` with maximum absolute
+difference `0`. CNOTs scale as `n^1.00` at fixed `r` and as `r^1.00` at fixed `n`. Logical depth at fixed
+`r` changes by only `+3` layers per extra qubit (`0.43%` from `n = 4` to `n = 6`), while the same depth
+range covers `r = 45` to `r = 200` - so **on this conservative scheduler, depth is set by the step count,
+not by the system size**. That is a property of the scheduler (bonds are serialised, no even/odd bond
+colouring), stated as such, not a hardware result.
+
+**6. Depth-based and gate-based comparisons agree on the ranking but not on the numbers.** Because depth is
+nearly `n`-independent, error-versus-depth curves for `n = 4, 5, 6` almost coincide (they differ by the
+prefactor only), whereas error-versus-CNOT curves are clearly ordered by `n`. Both views put second order
+below first order at any fixed resource value, so the qualitative conclusion is robust to the choice of cost
+axis; the quantitative gap is not the same on the two axes.
+
+**7. Numerical reliability.** 216 rows, none at the floor, all six curves strictly decreasing, no duplicate
+`(n, order, r)` rows, no non-positive errors. Raw values are preserved: the CSV is read-only and log axes
+clip at `1e-15` in a *copy* of the data (`safe_log`), tested by comparing the input array before and after.
+
+### 17.4 Outputs
+
+| file | contents |
+|---|---|
+| `error_vs_cnot.png` | error vs CNOT count, both formulas, three chain lengths, fitted slopes |
+| `error_vs_total_gates.png` | same against `CNOT + RX + RZ` |
+| `error_vs_circuit_depth.png` | error vs logical depth (conservative scheduler) |
+| `error_vs_two_qubit_depth.png` | error vs two-qubit depth |
+| `order_comparison_equal_steps.png` | left: error vs `r`, both formulas; right: the `2(n-1)` / `3(n-1)` overhead vs `r` |
+| `order_comparison_equal_cnot.png` | one panel per `n`, equal-CNOT budgets, gap factors annotated |
+| `order_comparison_equal_gates.png` | the same for total-gate budgets |
+| `cnot_vs_qubits.png`, `total_gates_vs_qubits.png`, `depth_vs_qubits.png` | resource scaling, dotted analytic lines |
+| `minimum_resources_for_accuracy.csv` | 48 rows: cheapest-by-CNOT and cheapest-by-gates per `(n, order, target)` |
+| `resource_efficiency.csv` | 216 rows: error per CNOT, error per gate, equal-step error reduction |
+| `phase2_summary.json` | the whole analysis, machine-readable (strict JSON: non-finite values become `null`) |
+| `phase2_report.md` | the generated report, including the full minimum-resource table |
+
+Every figure is produced from measured data; nothing is sketched or hardcoded.
+
+### 17.5 Verification
+
+* `python -m pytest tests/ -q` -> **78 tests pass**: the 48 Phase 1 tests plus 30 Phase 2 tests covering
+  loading/validation (missing column, empty error, non-integer `n`, `qubits != n`, `CNOT+RX+RZ != total`),
+  equal-step pairing, budget selection against a known power law, refusal to extrapolate, threshold search
+  (including an unachievable target, a floor-level error, and a non-monotonic curve), analytic scaling
+  identities, `safe_log` not mutating its input, and a regression that re-runs the whole driver and checks
+  the Phase 1 files are byte-identical afterwards.
+* Analytic gate counts re-verified against all 216 rows: max difference `0`.
+* `python trotter.py` outputs are unchanged; `results/circuit_resources.csv` has the same 132 rows as Phase 1.
+
+### 17.6 What Phase 2 does not claim
+
+* Not quantum advantage. "Fewer gates for the same error" is a resource-efficiency statement about two
+  classical descriptions of one ideal simulator.
+* No noise model. Without depolarising noise there is no optimal `r` and no statement about what a device
+  could do; the ranking here is a statement about ideal circuits only.
+* No hardware depth. The scheduler is logical and conservative; a hardware-aware schedule (bond colouring,
+  connectivity, native gates) would change absolute depth and could change the depth-based ordering.
+* Only `n = 4, 5, 6` and `t = 1`, `J = h = 1`. Nothing is extrapolated beyond that, and the one selection
+  sitting at `r = 30000` is marked as such.
+
+---
+
 *Phase 1 (circuit costs): every gate count, depth and figure in §16 is produced by `python circuit_cost.py`
 and checked by `python -m pytest tests/ -q`.*
+
+*Phase 2 (resource trade-offs): every number and figure in §17 is produced by
+`python -m analysis.run_phase2`, with the written report at `results/phase2/phase2_report.md`.*
