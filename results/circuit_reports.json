@@ -1,0 +1,562 @@
+[
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 4,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 1,
+      "steps": 1,
+      "step_size": 1.0,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 6,
+      "rx_count": 4,
+      "rz_count": 3,
+      "total_gates": 13,
+      "circuit_depth": 10,
+      "two_qubit_depth": 6,
+      "cnot_per_step": 6.0,
+      "rx_per_step": 4.0,
+      "rz_per_step": 3.0,
+      "a_layers": 1,
+      "x_layers": 1
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 4,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 2,
+      "steps": 1,
+      "step_size": 1.0,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 12,
+      "rx_count": 4,
+      "rz_count": 6,
+      "total_gates": 22,
+      "circuit_depth": 16,
+      "two_qubit_depth": 12,
+      "cnot_per_step": 12.0,
+      "rx_per_step": 4.0,
+      "rz_per_step": 6.0,
+      "a_layers": 2,
+      "x_layers": 1
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 4,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 1,
+      "steps": 5,
+      "step_size": 0.2,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 30,
+      "rx_count": 20,
+      "rz_count": 15,
+      "total_gates": 65,
+      "circuit_depth": 38,
+      "two_qubit_depth": 30,
+      "cnot_per_step": 6.0,
+      "rx_per_step": 4.0,
+      "rz_per_step": 3.0,
+      "a_layers": 5,
+      "x_layers": 5
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 4,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 2,
+      "steps": 5,
+      "step_size": 0.2,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 36,
+      "rx_count": 20,
+      "rz_count": 18,
+      "total_gates": 74,
+      "circuit_depth": 44,
+      "two_qubit_depth": 36,
+      "cnot_per_step": 7.2,
+      "rx_per_step": 4.0,
+      "rz_per_step": 3.6,
+      "a_layers": 6,
+      "x_layers": 5
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 4,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 1,
+      "steps": 50,
+      "step_size": 0.02,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 300,
+      "rx_count": 200,
+      "rz_count": 150,
+      "total_gates": 650,
+      "circuit_depth": 353,
+      "two_qubit_depth": 300,
+      "cnot_per_step": 6.0,
+      "rx_per_step": 4.0,
+      "rz_per_step": 3.0,
+      "a_layers": 50,
+      "x_layers": 50
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 4,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 2,
+      "steps": 50,
+      "step_size": 0.02,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 306,
+      "rx_count": 200,
+      "rz_count": 153,
+      "total_gates": 659,
+      "circuit_depth": 359,
+      "two_qubit_depth": 306,
+      "cnot_per_step": 6.12,
+      "rx_per_step": 4.0,
+      "rz_per_step": 3.06,
+      "a_layers": 51,
+      "x_layers": 50
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 4,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 1,
+      "steps": 200,
+      "step_size": 0.005,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 1200,
+      "rx_count": 800,
+      "rz_count": 600,
+      "total_gates": 2600,
+      "circuit_depth": 1403,
+      "two_qubit_depth": 1200,
+      "cnot_per_step": 6.0,
+      "rx_per_step": 4.0,
+      "rz_per_step": 3.0,
+      "a_layers": 200,
+      "x_layers": 200
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 4,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 2,
+      "steps": 200,
+      "step_size": 0.005,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 1206,
+      "rx_count": 800,
+      "rz_count": 603,
+      "total_gates": 2609,
+      "circuit_depth": 1409,
+      "two_qubit_depth": 1206,
+      "cnot_per_step": 6.03,
+      "rx_per_step": 4.0,
+      "rz_per_step": 3.015,
+      "a_layers": 201,
+      "x_layers": 200
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 6,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 1,
+      "steps": 1,
+      "step_size": 1.0,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 10,
+      "rx_count": 6,
+      "rz_count": 5,
+      "total_gates": 21,
+      "circuit_depth": 16,
+      "two_qubit_depth": 10,
+      "cnot_per_step": 10.0,
+      "rx_per_step": 6.0,
+      "rz_per_step": 5.0,
+      "a_layers": 1,
+      "x_layers": 1
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 6,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 2,
+      "steps": 1,
+      "step_size": 1.0,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 20,
+      "rx_count": 6,
+      "rz_count": 10,
+      "total_gates": 36,
+      "circuit_depth": 22,
+      "two_qubit_depth": 18,
+      "cnot_per_step": 20.0,
+      "rx_per_step": 6.0,
+      "rz_per_step": 10.0,
+      "a_layers": 2,
+      "x_layers": 1
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 6,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 1,
+      "steps": 5,
+      "step_size": 0.2,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 50,
+      "rx_count": 30,
+      "rz_count": 25,
+      "total_gates": 105,
+      "circuit_depth": 44,
+      "two_qubit_depth": 39,
+      "cnot_per_step": 10.0,
+      "rx_per_step": 6.0,
+      "rz_per_step": 5.0,
+      "a_layers": 5,
+      "x_layers": 5
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 6,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 2,
+      "steps": 5,
+      "step_size": 0.2,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 60,
+      "rx_count": 30,
+      "rz_count": 30,
+      "total_gates": 120,
+      "circuit_depth": 50,
+      "two_qubit_depth": 46,
+      "cnot_per_step": 12.0,
+      "rx_per_step": 6.0,
+      "rz_per_step": 6.0,
+      "a_layers": 6,
+      "x_layers": 5
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 6,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 1,
+      "steps": 50,
+      "step_size": 0.02,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 500,
+      "rx_count": 300,
+      "rz_count": 250,
+      "total_gates": 1050,
+      "circuit_depth": 359,
+      "two_qubit_depth": 354,
+      "cnot_per_step": 10.0,
+      "rx_per_step": 6.0,
+      "rz_per_step": 5.0,
+      "a_layers": 50,
+      "x_layers": 50
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 6,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 2,
+      "steps": 50,
+      "step_size": 0.02,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 510,
+      "rx_count": 300,
+      "rz_count": 255,
+      "total_gates": 1065,
+      "circuit_depth": 365,
+      "two_qubit_depth": 361,
+      "cnot_per_step": 10.2,
+      "rx_per_step": 6.0,
+      "rz_per_step": 5.1,
+      "a_layers": 51,
+      "x_layers": 50
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 6,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 1,
+      "steps": 200,
+      "step_size": 0.005,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 2000,
+      "rx_count": 1200,
+      "rz_count": 1000,
+      "total_gates": 4200,
+      "circuit_depth": 1409,
+      "two_qubit_depth": 1404,
+      "cnot_per_step": 10.0,
+      "rx_per_step": 6.0,
+      "rz_per_step": 5.0,
+      "a_layers": 200,
+      "x_layers": 200
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  },
+  {
+    "system": {
+      "model": "TFIM",
+      "num_qubits": 6,
+      "interaction_strength": 1.0,
+      "transverse_field": 1.0,
+      "simulation_time": 1.0,
+      "boundary_condition": "open"
+    },
+    "trotter": {
+      "formula_order": 2,
+      "steps": 200,
+      "step_size": 0.005,
+      "half_step_merging": true
+    },
+    "resources": {
+      "cnot_count": 2010,
+      "rx_count": 1200,
+      "rz_count": 1005,
+      "total_gates": 4215,
+      "circuit_depth": 1415,
+      "two_qubit_depth": 1411,
+      "cnot_per_step": 10.05,
+      "rx_per_step": 6.0,
+      "rz_per_step": 5.025,
+      "a_layers": 201,
+      "x_layers": 200
+    },
+    "assumptions": {
+      "zero_angles_kept": false,
+      "scheduling": "ASAP list scheduling, conservative, logical depth only",
+      "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+      "gate_set": "CNOT, RX, RZ"
+    }
+  }
+]

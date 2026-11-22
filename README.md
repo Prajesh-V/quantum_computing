@@ -33,6 +33,7 @@ every figure in this file.
 13. [Troubleshooting and FAQ](#13-troubleshooting-and-faq)
 14. [Limitations and possible extensions](#14-limitations-and-possible-extensions)
 15. [Where to change the code](#15-where-to-change-the-code)
+16. [Circuit-level resource estimation (Phase 1)](#16-circuit-level-resource-estimation-phase-1)
 
 ---
 
@@ -175,6 +176,16 @@ It will:
 7. write the raw numbers to `results.csv`, `results/floor_study.csv`, `results/trotter_number.csv`;
 8. print the slope table and a verification summary to the console.
 
+To add the **circuit-level cost** of the same evolution (Phase 1, §16):
+
+```bash
+python circuit_cost.py        # verification, gate-count table, 6 more plots, ~15 s
+python -m pytest tests/ -q    # unit tests for the estimator (~2 s, 48 tests)
+```
+
+`circuit_cost.py` reuses `trotter.tfim_terms` and `trotter.sweep` and does not modify the numerical
+error calculation in any way.
+
 **Runtime: about 30 seconds** on a normal laptop (up to a minute on a slow machine). The `n`-scaling
 study and the round-off study dominate. Nothing is parallelised; results are deterministic, so two runs
 produce identical CSVs.
@@ -187,7 +198,11 @@ Expected console output ends with a table like the one in [§10.1](#101-the-slop
 
 ```
 quantum_computing/
-├── trotter.py                  # the entire project: model, methods, experiments, plots (794 lines)
+├── trotter.py                  # the physics study: model, methods, experiments, plots (794 lines)
+├── circuit_cost.py             # Phase 1: gate decomposition + resource estimation (~700 lines)
+├── conftest.py                 # makes the project importable for pytest
+├── tests/
+│   └── test_circuit_cost.py    # 48 tests: counts, validation, scheduling, reports, regression
 ├── README.md                   # this file
 ├── results.csv                 # main data table, 220 rows (+ header), 7 columns
 └── results/
@@ -198,8 +213,16 @@ quantum_computing/
     ├── plot_E_heisenberg.png
     ├── plot_F_roundoff_floor.png
     ├── plot_G_trotter_number.png
+    ├── plot_H_error_vs_cnot.png        # circuit-cost figures, see #16
+    ├── plot_I_error_vs_gates.png
+    ├── plot_J_error_vs_depth.png
+    ├── plot_K_cnot_vs_qubits.png
+    ├── plot_L_gates_vs_steps.png
+    ├── plot_M_depth_vs_steps.png
     ├── floor_study.csv         # 108 rows: error vs r up to 1e8
-    └── trotter_number.csv      # 12 rows: r(eps) for n = 2...7, both orders
+    ├── trotter_number.csv      # 12 rows: r(eps) for n = 2...7, both orders
+    ├── circuit_resources.csv   # 132 rows: error + CNOT/RX/RZ/depth per (n, r, order)
+    └── circuit_reports.json    # 16 structured resource reports
 ```
 
 `trotter.py` is deliberately a single file (no package, no imports beyond the three libraries) so that it
@@ -396,11 +419,36 @@ threshold is marked and is **never reached at any `r`** - the honest answer to "
 round-off matter here?" is "three decades before your cutoff does". Slope on the clean branch `-2.00`,
 versus `-1.22` if every point is fitted.
 
+**Plot H - `plot_H_error_vs_cnot.png`.** Operator error vs CNOT count, `n = 4`, both orders. On this axis
+the first-order curve falls like `CNOT^-1` and the second-order curve like `CNOT^-2`, so second order is
+the better accuracy-per-CNOT purchase at every size measured.
+
+**Plot I - `plot_I_error_vs_gates.png`.** Same data against total elementary gates (CNOT + RX + RZ) for
+`n = 4, 5, 6`. Error falls faster than cost grows, so spending gates on `r` always pays.
+
+**Plot J - `plot_J_error_vs_depth.png`.** Same data against logical circuit depth. Depth is smaller than
+the gate count by the amount of parallelism the scheduler finds, so this axis reaches the same error with
+fewer "time slots" than gates.
+
+**Plot K - `plot_K_cnot_vs_qubits.png`.** CNOT count vs chain length at fixed `r = 200`, log-log: the count
+is proportional to `n - 1` (one bond per extra qubit), i.e. asymptotically linear in `n`.
+
+**Plot L - `plot_L_gates_vs_steps.png`.** Total gate count vs `r`: straight lines of slope 1, because the
+circuit is `r` repetitions of a fixed step. The second-order line is parallel and only `3(n-1)` gates above
+the first-order one.
+
+**Plot M - `plot_M_depth_vs_steps.png`.** Circuit depth vs `r`, also linear; second order sits one extra
+ZZ layer above first order.
+
 **Plot G - `plot_G_trotter_number.png`.** Left: smallest `r` with operator error `<= 1e-3` vs `n`, log-log.
 First order needs `r = 704, 1099, 1381, 1746, 2254, 2554` (`r ~ n^1.03`); second order needs
 `r = 23.6, 29.2, 33.7, 39.0, 43.1, 46.9` (`r ~ n^0.55`). Hollow markers are extrapolated past `r = 200`
 (all first-order points, since `1e-3` needs `r > 10^3`); second-order points are interpolated inside the
 measured range. Right: the fitted exponent per `n`, flat at `-1.02` and `-2.02`.
+
+### 9.5 The six circuit-resource figures
+
+Produced by `python circuit_cost.py` from the same measured errors (see §16 for the formulas).
 
 ---
 
@@ -460,6 +508,18 @@ Additional consistency checks reported in the console and visible in the figures
 * The commutator bound is never violated at any measured `r`.
 * Operator and infidelity exponents differ by exactly the factor of 2 predicted by the quadratic relation.
 * The same exponents appear for a second, unrelated model.
+
+For the circuit layer (§16), `python circuit_cost.py` additionally checks, and aborts on failure:
+
+* **Gate decomposition.** The compiled gate list is multiplied out into a full `2^n x 2^n` matrix and
+  compared with `trotter.trotter_unitary`: agreement to `1.1e-15` for both orders, with and without
+  half-step merging. The two identities used for the decomposition are checked separately against
+  `scipy.linalg.expm` to `1.8e-16`.
+* **Gate counts.** Compiled counts are compared with closed-form expressions for `(n, r) =
+  (2,1), (4,5), (6,10), (8,50)`; they match exactly.
+* **Unit tests.** `python -m pytest tests/ -q` runs 48 tests (analytic counts, parameter rejection,
+  scheduling, JSON/CSV export, decomposition, and a regression that recomputes a committed `results.csv`
+  entry).
 
 A useful way to read a failure: a slope of `0` means the sweep is not varying `r`; a slope of `-0.5`
 usually means the fit window includes pre-asymptotic points; a *positive* slope at large `r` means you have
@@ -541,15 +601,17 @@ Not implemented, each for a stated reason:
   network methods, which is a different project.
 * **Noise and decoherence.** The only "error" besides truncation here is floating-point round-off, which
   does not exist on real hardware - hence a floor of `1e-11`, which no device will ever reach.
-* **Gate-level cost model.** The cost is counted in matrix powers `r`, not in CNOTs. A hardware-facing
-  study would convert `r` into gate counts.
+* **Hardware-aware scheduling and noise.** Circuit *gate counts* now exist (§16), but the depth is a
+  conservative logical estimate and there is no connectivity, calibration or decoherence model. A real
+  device would need the even/odd bond-colouring schedule, a native gate set, and a noise model to say
+  anything about whether a circuit is runnable.
 * **More models** (XY, long-range, dimerised) - the machinery is model-agnostic but each needs its own `A/B`
   split and a meaningful initial state.
 * **Advanced bounds** (recursive commutator bounds, random product formulas, commuting-term refinements).
   Only the standard first-order commutator bound is compared.
 
-Cheap extensions, in order of payoff: add gate counts; add random-state averaging; add a depolarising-noise
-run; scale `t` with `n`; compare one number against a published figure.
+Cheap extensions, in order of payoff: add random-state averaging; add a depolarising-noise run; scale `t`
+with `n`; compare one number against a published figure.
 
 ---
 
@@ -567,11 +629,223 @@ run; scale `t` with `n`; compare one number against a published figure.
 | The step-count study | `trotter_number`, `Spectral` |
 | Figures | `plot_errors` |
 | Flags and run order | `main` |
+| Gate decomposition, circuit counts | `circuit_cost.build_circuit`, `estimate_resources` |
+| Circuit depth and scheduling | `circuit_cost.schedule`, `circuit_depth`, `two_qubit_depth` |
+| Resource reports (JSON/CSV) | `circuit_cost.resource_report`, `write_json`, `write_csv` |
 
 The code is organised so each of these is one small function; adding a third model means writing one
 `*_terms` builder and a two-line entry in `main`.
 
 ---
 
+## 16. Circuit-level resource estimation (Phase 1)
+
+Sections 1-15 count cost in **Trotter steps `r`**. That is a mathematical cost, not a quantum-computing
+one: two circuits with the same `r` can differ in gate count, depth and two-qubit count by orders of
+magnitude, and on real hardware those are what decide whether the circuit runs. This section compiles the
+same product formulas to a concrete gate list (CNOT, RX, RZ), counts it, schedules it, and checks the
+result against the matrix evolution.
+
+`circuit_cost.py` **reuses** `trotter.tfim_terms` and `trotter.sweep`; no Hamiltonian, propagator or
+error formula is re-implemented, and `trotter.py` is unmodified.
+
+### 16.1 Conventions (and one deliberate conflict with the original spec)
+
+The Hamiltonian used everywhere in this repository, including `trotter.py`, is
+
+```
+H = -J * sum_{i=0}^{n-2} Z_i Z_{i+1}  -  h * sum_{i=0}^{n-1} X_i      J = h = 1
+  = A + B,   A = -J sum ZZ,   B = -h sum X
+```
+
+with the **minus signs**. The Phase 1 brief wrote `H = +J sum ZZ + h sum X`. The implementation follows the
+**code**, not the brief, because silently changing the sign convention would break the comparison with
+`results.csv`. This matters only for the sign of the rotation angles, not for any count:
+
+* each elementary rotation is a matrix exponential `exp(-i theta/2 P)` with `P` a Pauli;
+* the angle is therefore `-2 x (coefficient of that Pauli term in H) x (time span)`;
+* with the minus signs above every Ising angle is negative for `t > 0` (e.g. `theta = -2J dt`), and every
+  RX angle is `-2h dt`.
+
+Gate set: `{CNOT, RX, RZ}`. That is the standard fault-tolerant-ish gate-count model used in the
+Trotter-cost literature; it ignores single-qubit Clifford gates, which are cheap, and it assumes
+all-to-all connectivity.
+
+### 16.2 The two decompositions
+
+The circuit uses exactly two identities, both verified numerically against `expm` in
+`verify_gate_decomposition`:
+
+```
+exp(-i theta/2 Z_i Z_j) = CNOT(i,j) . RZ_j(theta) . CNOT(i,j)
+exp(-i theta/2 X_i)     = RX_i(theta)
+```
+
+so one nearest-neighbour ZZ term costs **2 CNOT + 1 RZ**, and one field term costs **1 RX**. With an open
+chain of `n` qubits there are `n - 1` bonds, hence `2(n-1)` CNOT and `n-1` RZ per ZZ layer, and `n` RX
+per X layer.
+
+### 16.3 Gate counts
+
+| quantity | 1st order | 2nd order, half steps merged | 2nd order, not merged |
+|----------|-----------|------------------------------|-----------------------|
+| CNOT | `2r(n-1)` | `2(r+1)(n-1)` | `4r(n-1)` |
+| RZ | `r(n-1)` | `(r+1)(n-1)` | `2r(n-1)` |
+| RX | `rn` | `rn` | `rn` |
+| **total** | **`r(4n-3)`** | **`3(r+1)(n-1) + rn`** | **`r(7n-6)`** |
+
+Numerical check, `n = 6`, `r = 10`:
+
+| | CNOT | RZ | RX | total |
+|---|---|---|---|---|
+| 1st order | 100 | 50 | 60 | 210 |
+| 2nd order, merged | 110 | 55 | 60 | 225 |
+| 2nd order, unmerged | 200 | 100 | 60 | 360 |
+
+Note that `3(r+1)(n-1) + rn = r(4n-3) + 3(n-1)`: **second order with merging costs only `3(n-1)` gates
+more than first order at the same `r`** - a constant, independent of `r` and of the simulation length. It
+buys an error smaller by a factor of order `r`. That is the single most useful number in this section, and
+it is the obvious starting point for Phase 2 (accuracy per CNOT).
+
+### 16.4 Why the half steps merge
+
+Order 2 applies `ZZ(dt/2) X(dt) ZZ(dt/2)` `r` times. Written out, the end of step `k` and the start of step
+`k+1` are `... ZZ(dt/2) ZZ(dt/2) ...` with nothing in between, acting on the same qubits, and
+`RZ(a).RZ(b) = RZ(a+b)`. So `r` steps contain `2r` half-layers that fuse into `r + 1` layers: one
+half-angle layer at the start, one at the end, and `r - 1` full layers inside. Counting them as `2r` full
+layers (the unmerged column above) overestimates the CNOT count by `2(r-1)(n-1)` gates - for `n = 6`,
+`r = 200` that is 1990 CNOTs of pure fiction. `--no-merge` produces that naive count on purpose, so the two
+can be compared, and both circuits are checked to give the same unitary.
+
+Two subtleties worth stating:
+
+* merging is exact, not an approximation - it merges two rotations that are already adjacent, and the test
+  `test_merged_and_unmerged_second_order_are_the_same_operator` confirms it to `1e-12`;
+* the merged circuit is **not** the same as a first-order circuit: the merged blocks at the two ends have
+  half the angle, and the middle layers differ from Lie-Trotter's by construction.
+
+### 16.5 Depth is not gate count
+
+The gate list is scheduled with ASAP list scheduling (`schedule`): a gate enters the earliest layer in
+which all of its qubits are free, and the relative order of gates is preserved, so nothing non-commuting
+is reordered. `circuit_depth` is the number of layers; `two_qubit_depth` is the number of layers that
+contain at least one CNOT.
+
+Measured at `r = 200` (from the committed run):
+
+| | n=4, 1st | n=4, 2nd | n=6, 1st | n=6, 2nd |
+|---|---|---|---|---|
+| total gates | 2600 | 2609 | 4200 | 4215 |
+| circuit depth | 1403 | 1409 | 1409 | 1415 |
+| two-qubit depth | 1200 | 1206 | 1404 | 1411 |
+| CNOT count | 1200 | 1206 | 2000 | 2010 |
+
+So depth is about **half** the gate count at `n = 4` and a **third** of it at `n = 6`: at `n = 6` there are
+2000 CNOTs but only 1404 CNOT layers, because bond `i+1` can start while bond `i` finishes its second CNOT.
+Equating cost with gate count would therefore overstate the time cost by up to 3x.
+
+Assumptions, stated because they are *not* hardware claims: the schedule is conservative and logical; it
+does **not** re-order the commuting ZZ bonds of one layer into even/odd rounds (which would cut the per-layer
+depth from about `3(n-1)` to about 6); it assumes every qubit can talk to every other; it reports no
+wall-clock, no pulse duration, no fidelity.
+
+### 16.6 Zero-angle policy
+
+If `J = 0` or `h = 0`, the corresponding rotation angle is exactly zero. Default policy: **drop the whole
+block**, CNOTs included, because `CNOT(i,j).CNOT(i,j) = I` and `RZ(0) = RX(0) = I`. Counting those gates
+would inflate a resource estimate with operations that no compiler would emit. `keep_zero_angles=True`
+(and the report field `assumptions.zero_angles_kept`) keeps them symbolically for structural comparisons,
+which is why the module has both numbers available.
+
+### 16.7 How to run it
+
+```bash
+python circuit_cost.py                        # full run, ~15 s
+python circuit_cost.py --no-plots             # skip the six figures
+python circuit_cost.py --no-merge             # naive unmerged second-order counts
+python circuit_cost.py --nlist 4,5 --rmax 50  # smaller sweep
+python -m pytest tests/ -q                    # 48 unit tests, ~2 s
+```
+
+Flags: `--t`, `--J`, `--h`, `--rmax`, `--npoints`, `--nlist`, `--outdir`, `--csv`, `--json`, `--no-plots`,
+`--no-merge`. Defaults match `trotter.py` (`t = 1`, `J = h = 1`, `r` up to 200, 26 log-spaced points).
+
+Outputs:
+
+* `results/circuit_resources.csv` - 132 rows, one per `(n, r, order)`: the measured error from `trotter.sweep`
+  plus `qubits, cnot_count, rx_count, rz_count, total_gates, circuit_depth, two_qubit_depth`;
+* `results/circuit_reports.json` - 16 structured reports (the §16.9 schema) for `n = 4, 6`, `r = 1, 5, 50, 200`,
+  both orders;
+* plots H-M (§9.5).
+
+### 16.8 What was verified
+
+```
+zz_identity_theta=-2.000     max |difference| = 0.000e+00
+rx_identity_theta=-2.000     max |difference| = 1.796e-16
+order1_merged=True           max |difference| = 1.103e-15
+order1_merged=False          max |difference| = 1.103e-15
+order2_merged=True           max |difference| = 1.132e-15
+order2_merged=False          max |difference| = 9.015e-16
+-> PASS (tolerance 1e-10)
+```
+
+(The `order*` lines compare the multiplied-out gate list with `trotter.trotter_unitary`, `n = 4`, `r = 3`.)
+
+Analytical validation, printed by every run (`n=2 r=1`, `n=4 r=5`, `n=6 r=10`, `n=8 r=50`, both orders):
+compiled counts equal the closed forms exactly, e.g. `n=8, r=50, order 1` gives `CNOT=700, RZ=350,
+RX=400, total=1450 = 50*(4*8-3)`, and `order 2` gives `CNOT=714 = 2*51*7`.
+
+The 48 tests cover: analytic counts against literal formulas, `r`-step and per-step counts, the merging
+identity `2r -> r+1` layers, zero-coupling and negative-`t` behaviour, every rejection path (`n < 2`,
+`r < 1`, bad order, bad boundary, NaN/inf parameters, non-integer `n`), scheduling on disjoint and shared
+qubits, two-qubit depth, report/JSON/CSV structure, and two regressions: `trotter.trotter_unitary` still
+matches `expm`, and a committed `results.csv` row is recomputed to `1e-12`.
+
+Regression on the existing pipeline: `python trotter.py` re-run into a temporary directory reproduced
+`results.csv`, `results/floor_study.csv` and `results/trotter_number.csv` **byte for byte**.
+
+### 16.9 A real report
+
+`python circuit_cost.py` prints and exports entries of this form (`n = 6`, `r = 50`, order 2 - computed, not
+hardcoded):
+
+```json
+{
+  "system":    {"model": "TFIM", "num_qubits": 6, "interaction_strength": 1.0,
+                "transverse_field": 1.0, "simulation_time": 1.0,
+                "boundary_condition": "open"},
+  "trotter":   {"formula_order": 2, "steps": 50, "step_size": 0.02,
+                "half_step_merging": true},
+  "resources": {"cnot_count": 510, "rx_count": 300, "rz_count": 255,
+                "total_gates": 1065, "circuit_depth": 365, "two_qubit_depth": 361,
+                "cnot_per_step": 10.2, "rx_per_step": 6.0, "rz_per_step": 5.1,
+                "a_layers": 51, "x_layers": 50},
+  "assumptions": {"zero_angles_kept": false,
+                 "scheduling": "ASAP list scheduling, conservative, logical depth only",
+                 "hamiltonian_sign": "H = -J sum ZZ - h sum X (as in trotter.py)",
+                 "gate_set": "CNOT, RX, RZ"}
+}
+```
+
+`cnot_per_step = 10.2 = 510/50` is not an integer because the merged circuit has `r + 1 = 51` ZZ layers
+for `r = 50` steps - the two end half-layers are charged to the run as a whole.
+
+### 16.10 What this is not, and what Phase 2 would do
+
+* Counts are **logical**. No connectivity, native gate set, error correction, magic-state cost, hardware
+  timing or fidelity. `RZ` here is a single-parameter rotation; on hardware it is not one physical gate.
+* Depth is a **conservative logical estimate** from one scheduler, not a compiled, optimised depth.
+* There is **no noise model**, so no statement about which `r` is optimal on a device - the interesting
+  crossover needs depolarising noise (Phase 2/3), and this module deliberately has no hook for it.
+* Phase 2 is analysis, not new machinery: the committed `circuit_resources.csv` already joins error with
+  CNOT count, total gates and depth, so "which formula gives the best accuracy per CNOT", "how does error
+  scale with depth" and "what circuit size reaches `1e-3`" are group-by queries over that table.
+
+---
+
 *Project: Trotterisation error vs step count for spin chains. Pure `numpy` / `scipy` / `matplotlib`; one
 command; deterministic; every figure and number in this README is produced by `python trotter.py`.*
+
+*Phase 1 (circuit costs): every gate count, depth and figure in §16 is produced by `python circuit_cost.py`
+and checked by `python -m pytest tests/ -q`.*
