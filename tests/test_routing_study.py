@@ -58,3 +58,14 @@ def test_evaluate_second_order_recovery():
         assert "depth_ratio_o2_o1" in r
         assert "cnot_ratio_o2_o1" in r
         assert isinstance(r["recovered_depth_advantage"], (bool, int))
+
+
+def test_invalid_topology_raises():
+    with pytest.raises(ValueError, match="Unknown topology"):
+        run_routing_benchmark(
+            n=4,
+            r=1,
+            order=1,
+            topology_name="nonexistent_topology",
+            method_config=ROUTING_METHODS[0],
+        )
