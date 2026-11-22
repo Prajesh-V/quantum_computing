@@ -127,64 +127,67 @@ def build(results) -> str:
         "optimal and clearly non-optimal step counts.\n")
 
     add("## 5. Robustness analysis\n")
-    robust = audit["robustness"]
-    strength = robust["noise_strength"]
-    candidate = robust["candidate_grid"]
-    add(f"* **Initial state**: the interior optimum exists for all four tested states "
-        f"and every noise level. Its location moves: at n = 4, first order, "
-        f"p = 1e-3 it is r* = 4 for `|0...0>` and `|1...1>` but r* = 6 for `|+...+>` "
-        f"and the random state. Second order is insensitive (r* = 3 throughout).")
-    add(f"* **Evolution time**: r* grows roughly in proportion to t (first order "
-        f"3, 4, 8, 16 for t = 0.5, 1, 2, 4), and stays interior at every time. A "
-        f"quoted r* is meaningless without the evolution time.")
-    add(f"* **Noise strength**: {strength['non_increasing']} of "
-        f"{strength['groups_without_noise_free']} groups are non-increasing and "
-        f"{strength['strictly_decreasing']} strictly decreasing, with "
-        f"{strength['violations']} violations. The claim must be \"non-increasing\", "
-        f"not \"strictly decreasing\".")
-    add(f"* **Gate classes**: at equal per-gate error the single-qubit and two-qubit "
-        f"classes contribute comparably (0.0215 against 0.0199 at p = 1e-3 for first "
-        f"order), tracking the gate counts (28 against 24), not the gate class. The "
-        f"two contributions add to within 1% of the combined run.")
-    add(f"* **Candidate grid**: {candidate['changed']} of "
-        f"{len(candidate['groups'])} reported optima move by one step on a dense "
-        f"integer grid -- systematically 4 -> 5 for first order at n = 4, 5, 6, while "
-        f"second order stays at 3. The error change is small (0.0712 -> 0.0693 at "
-        f"n = 4) but the reported value should be described as the best *tested* "
-        f"discrete step count.\n")
+    robust = audit.get("robustness") or {}
+    if not robust or "noise_strength" not in robust:
+        add("*Robustness experiments were skipped in this run (--skip-robustness).*\n")
+    else:
+        strength = robust["noise_strength"]
+        candidate = robust["candidate_grid"]
+        add(f"* **Initial state**: the interior optimum exists for all four tested states "
+            f"and every noise level. Its location moves: at n = 4, first order, "
+            f"p = 1e-3 it is r* = 4 for `|0...0>` and `|1...1>` but r* = 6 for `|+...+>` "
+            f"and the random state. Second order is insensitive (r* = 3 throughout).")
+        add(f"* **Evolution time**: r* grows roughly in proportion to t (first order "
+            f"3, 4, 8, 16 for t = 0.5, 1, 2, 4), and stays interior at every time. A "
+            f"quoted r* is meaningless without the evolution time.")
+        add(f"* **Noise strength**: {strength['non_increasing']} of "
+            f"{strength['groups_without_noise_free']} groups are non-increasing and "
+            f"{strength['strictly_decreasing']} strictly decreasing, with "
+            f"{strength['violations']} violations. The claim must be \"non-increasing\", "
+            "not \"strictly decreasing\".")
+        add(f"* **Gate classes**: at equal per-gate error the single-qubit and two-qubit "
+            f"classes contribute comparably (0.0215 against 0.0199 at p = 1e-3 for first "
+            f"order), tracking the gate counts (28 against 24), not the gate class. The "
+            f"two contributions add to within 1% of the combined run.")
+        add(f"* **Candidate grid**: {candidate['changed']} of "
+            f"{len(candidate['groups'])} reported optima move by one step on a dense "
+            f"integer grid -- systematically 4 -> 5 for first order at n = 4, 5, 6, while "
+            f"second order stays at 3. The error change is small (0.0712 -> 0.0693 at "
+            f"n = 4) but the reported value should be described as the best *tested* "
+            f"discrete step count.\n")
 
-    add("## 6. Initial-state dependence\n")
-    rows = []
-    for entry in sorted(robust["initial_state"]["groups"],
-                        key=lambda row: (row["trotter_order"], row["initial_state"],
-                                         row["single_qubit_error"])):
-        if entry["single_qubit_error"] == 0.0:
-            continue
-        rows.append((entry["initial_state"], entry["trotter_order"],
-                     _f(entry["single_qubit_error"]), entry["optimal_r"],
-                     _f(entry["minimum_total_error"]), entry["cnot_at_optimum"]))
-    add(_table(["Initial state", "Order", "p", "r*", "min total error", "CNOT at r*"],
-               rows))
-    add("")
+        add("## 6. Initial-state dependence\n")
+        rows = []
+        for entry in sorted(robust["initial_state"]["groups"],
+                            key=lambda row: (row["trotter_order"], row["initial_state"],
+                                             row["single_qubit_error"])):
+            if entry["single_qubit_error"] == 0.0:
+                continue
+            rows.append((entry["initial_state"], entry["trotter_order"],
+                         _f(entry["single_qubit_error"]), entry["optimal_r"],
+                         _f(entry["minimum_total_error"]), entry["cnot_at_optimum"]))
+        add(_table(["Initial state", "Order", "p", "r*", "min total error", "CNOT at r*"],
+                   rows))
+        add("")
 
-    add("## 7. Evolution-time dependence\n")
-    rows = []
-    for entry in sorted(robust["evolution_time"]["groups"],
-                        key=lambda row: (row["trotter_order"], row["total_time"])):
-        rows.append((entry["total_time"], entry["trotter_order"], entry["optimal_r"],
-                     _f(entry["minimum_total_error"]), _f(entry["fidelity_at_optimum"]),
-                     entry["cnot_at_optimum"], entry["total_gates_at_optimum"]))
-    add(_table(["t", "Order", "r*", "min total error", "Fidelity", "CNOT",
-                "Total gates"], rows))
-    add("")
+        add("## 7. Evolution-time dependence\n")
+        rows = []
+        for entry in sorted(robust["evolution_time"]["groups"],
+                            key=lambda row: (row["trotter_order"], row["total_time"])):
+            rows.append((entry["total_time"], entry["trotter_order"], entry["optimal_r"],
+                         _f(entry["minimum_total_error"]), _f(entry["fidelity_at_optimum"]),
+                         entry["cnot_at_optimum"], entry["total_gates_at_optimum"]))
+        add(_table(["t", "Order", "r*", "min total error", "Fidelity", "CNOT",
+                    "Total gates"], rows))
+        add("")
 
-    add("## 8. Noise-strength dependence\n")
-    add(f"Across {strength['groups_without_noise_free']} groups that exclude the "
-        f"noise-free level: {strength['non_increasing']} non-increasing, "
-        f"{strength['strictly_decreasing']} strictly decreasing, "
-        f"{strength['violations']} violations. No group reverses direction. Several "
-        "saturate at the smallest tested step count, which is why \"strictly "
-        "decreasing\" is not supported.\n")
+        add("## 8. Noise-strength dependence\n")
+        add(f"Across {strength['groups_without_noise_free']} groups that exclude the "
+            f"noise-free level: {strength['non_increasing']} non-increasing, "
+            f"{strength['strictly_decreasing']} strictly decreasing, "
+            f"{strength['violations']} violations. No group reverses direction. Several "
+            "saturate at the smallest tested step count, which is why \"strictly "
+            "decreasing\" is not supported.\n")
 
     optimal = audit["optimal_r"]
     add("## 9. Optimal-r verification\n")

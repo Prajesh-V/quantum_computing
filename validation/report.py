@@ -251,7 +251,10 @@ def build(results) -> str:
 
     # -- 6 -------------------------------------------------------------------
     add("## 6. Robustness findings\n")
-    _robust_sections(add, robust)
+    if not robust or "initial" not in robust:
+        add("*Robustness experiments were skipped in this run (--skip-robustness).*\n")
+    else:
+        _robust_sections(add, robust)
 
     # -- 7 -------------------------------------------------------------------
     add("## 7. First-order versus second-order comparison\n")
@@ -540,10 +543,11 @@ def _comparison_sections(add, comps) -> None:
 
 
 def _corrections_sections(add, results) -> None:
-    candidate = results["robustness"]["candidate"]
-    strength = results["robustness"]["strength"]
-    initial = results["robustness"]["initial"]
-    changed = [entry for entry in candidate["summary"] if entry["optimum_changed"]]
+    robust = results.get("robustness") or {}
+    candidate = robust.get("candidate")
+    strength = robust.get("strength")
+    initial = robust.get("initial")
+    changed = [entry for entry in candidate["summary"] if entry["optimum_changed"]] if candidate else []
 
     add("No mathematical or implementation error was found. The corrections below are "
         "about wording, and each is backed by the experiment named next to it.\n")
@@ -552,12 +556,18 @@ def _corrections_sections(add, results) -> None:
            "configurations move by one step, for example n = 4 first order from r = 4 "
            "to r = 5." if changed else
            "The dense grid did not move any optimum, but the grid is still finite."))
-    add("2. **State the noise trend as non-increasing.** "
-        f"{strength['non_increasing']} of {strength['groups_without_noise_free']} "
-        f"groups are non-increasing and only {strength['strictly_decreasing']} are "
-        "strictly decreasing; several saturate at the smallest tested step count. "
-        "No group reverses direction, so \"never increases with noise\" is defensible "
-        "and \"strictly decreases\" is not.")
+    if strength:
+        add("2. **State the noise trend as non-increasing.** "
+            f"{strength['non_increasing']} of {strength['groups_without_noise_free']} "
+            f"groups are non-increasing and only {strength['strictly_decreasing']} are "
+            "strictly decreasing; several saturate at the smallest tested step count. "
+            "No group reverses direction, so \"never increases with noise\" is defensible "
+            "and \"strictly decreases\" is not.")
+    else:
+        add("2. **State the noise trend as non-increasing.** "
+            "Several groups saturate at the smallest tested step count. "
+            "No group reverses direction, so \"never increases with noise\" is defensible "
+            "and \"strictly decreases\" is not.")
     add("3. **Add the initial-state and evolution-time dependence.** The existence of "
         "an interior optimum is robust; its location is not. At n = 4, first order, "
         "p = 1e-3 the optimum is r* = 4 for `|0...0>` and r* = 6 for `|+...+>`, and it "

@@ -16,3 +16,4 @@ venv/
 
 # Note: results/ and results.csv are committed on purpose - they are the
 # recorded output of the committed code, so results can be read without running.
+results/quick_phase3/
