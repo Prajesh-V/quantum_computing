@@ -10,9 +10,27 @@ state. Textbooks predict a first-order error falling like `1/r` and a second-ord
 that actually happens, how tight the standard commutator bound is, how the error depends on chain length,
 what finally stops the error from falling, and how many steps a fixed accuracy costs.
 
-Everything is written from scratch with `numpy`, `scipy` and `matplotlib`. There are no datasets, no
-downloads, no quantum-computing SDK, and no hidden dependencies. One command reproduces every number and
-every figure in this file.
+Phases 1-3 are written from scratch with `numpy`, `scipy` and `matplotlib`: there are no datasets, no
+downloads and no hidden dependencies, and one command reproduces every number and figure in those
+sections. Phase 4 adds an **independent validation layer** that does use a quantum-computing SDK
+(Qiskit + Aer, §19) - it re-derives the same numbers with different code, checks that the custom
+circuits are the same unitaries, and measures what compilation and connectivity cost. The custom
+simulator never imports Qiskit; it remains the reference implementation.
+
+---
+
+## Phase tracker
+
+| Phase | Scope | Status |
+|---|---|---|
+| Phase 1 | Gate-count analysis: circuit decomposition, CNOT/RX/RZ counts, depth | Complete (`abd5c54`) |
+| Phase 2 | Ideal Trotter error versus circuit resources, accuracy targets, scaling | Complete (`9905a7f`) |
+| Phase 3 | Density-matrix simulation, three depolarising channels, optimal step count | Complete (`9e47be8`) |
+| Phase 4 | Independent audit, robustness experiments, Qiskit validation, transpilation and hardware-aware costs | Complete - **PASS WITH QUALIFICATIONS**, §19 |
+
+Everything below is produced by the committed code and checked by `python -m pytest tests/ -q`
+(201 tests). Phase 4 confirms the Phase 3 physics to machine precision but qualifies three claims -
+read [§19.6](#196-what-the-audit-corrects) before quoting a number from §18.
 
 ---
 
@@ -36,6 +54,8 @@ every figure in this file.
 16. [Circuit-level resource estimation (Phase 1)](#16-circuit-level-resource-estimation-phase-1)
 17. [Accuracy versus circuit resources (Phase 2)](#17-accuracy-versus-circuit-resources-phase-2)
 18. [Noise and the optimal step count (Phase 3)](#18-noise-and-the-optimal-step-count-phase-3)
+19. [Independent audit, robustness and Qiskit validation (Phase 4)](#19-independent-audit-robustness-and-qiskit-validation-phase-4)
+20. [Getting Started for the Next Developer](#20-getting-started-for-the-next-developer)
 
 ---
 
@@ -111,13 +131,27 @@ advanced (recursive / random-product) error bounds. See [§14](#14-limitations-a
 ## 3. Requirements
 
 * **Python 3.9 or newer** (developed and tested on Python 3.11).
-* Three libraries, nothing else:
+* Three libraries for Phases 1-3:
 
 ```bash
 pip install numpy scipy matplotlib
 ```
 
-Developed against `numpy 2.4.6`, `scipy 1.17.1`, `matplotlib 3.11.2`.
+* Two more for the Phase 4 SDK layer (optional: Phases 1-3 run without them):
+
+```bash
+pip install qiskit qiskit-aer
+```
+
+Or install everything at once from the pinned ranges in `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+Developed against `numpy 2.4.6`, `scipy 1.17.1`, `matplotlib 3.11.2`, `qiskit 2.6.2`, `qiskit-aer 0.18.4`.
+Anything in the ranges recorded in `requirements.txt` should work; the transpiler results in §19 are
+specific to the Qiskit version, because a different transpiler routes differently.
 
 No GPU, no network access during a run, no display needed (matplotlib is forced onto the non-interactive
 `Agg` backend before `pyplot` is imported, so it works over SSH and in CI).
@@ -197,6 +231,23 @@ python -m analysis.run_phase2 --write-supplement  # re-measure r = 240...30000 f
 
 It only reads `results/circuit_resources.csv` and writes everything into `results/phase2/`.
 
+Phase 4 has two drivers. The first is the independent audit, which also runs the five robustness
+experiments and writes the audit report:
+
+```bash
+python -m validation.run_audit            # audit + robustness + 5 figures, ~5 minutes
+python -m validation.run_audit --skip-robustness   # audit only, ~30 s
+```
+
+The second is the Qiskit layer, which needs the audit's summary as input:
+
+```bash
+python -m quantum_sdk.run_phase4          # equivalence, transpilation, SDK noise, 7 figures, ~30 s
+python -m quantum_sdk.run_phase4 --quick  # one system size, two step counts
+```
+
+Run them in that order. Neither one writes to `results/phase1`, `results/phase2` or `results/phase3`.
+
 **Runtime: about 30 seconds** on a normal laptop (up to a minute on a slow machine). The `n`-scaling
 study and the round-off study dominate. Nothing is parallelised; results are deterministic, so two runs
 produce identical CSVs.
@@ -228,11 +279,37 @@ quantum_computing/
 │   ├── plotting.py             # the twelve Phase 3 figures
 │   ├── report.py               # phase3_report.md + phase3_summary.json
 │   └── run_phase3.py           # driver, starting with the validation stage
+├── validation/                 # Phase 4: the independent audit, written without the noise/ code
+│   ├── independent.py          # from-scratch engine: gates, product formulas, channels, metrics
+│   ├── audit.py                # 187 mathematical checks against Phase 3
+│   ├── reproduction.py         # 12 stored configurations recalculated independently
+│   ├── optimal_check.py        # every stored optimal r re-derived from the sweep
+│   ├── comparisons.py          # independent re-pairing of first vs second order
+│   ├── robustness.py           # the five robustness experiments
+│   ├── resources.py            # analytic gate counts vs the circuits actually used
+│   ├── plotting.py             # figures 1-5 of Phase 4
+│   ├── report.py               # audit_report.md
+│   └── run_audit.py            # driver
+├── quantum_sdk/                # Phase 4: Qiskit validation and transpilation layer
+│   ├── circuit_builder.py      # Phase 1 gate list -> QuantumCircuit, with the index mapping
+│   ├── equivalence.py          # phase-insensitive custom vs Qiskit unitary comparison
+│   ├── transpilation.py        # logical / line / ring / star configurations
+│   ├── resources.py            # logical and compiled resource extraction
+│   ├── layout.py               # recover the logical qubit order after routing
+│   ├── noise_check.py          # channel reconciliation + Aer cross-check of the custom noise
+│   ├── experiments.py          # the SDK study grids
+│   ├── plotting.py             # figures 6-12 of Phase 4
+│   ├── report.py               # phase4_report.md
+│   └── run_phase4.py           # driver (reads the audit summary)
 ├── conftest.py                 # makes the project importable for pytest
+├── requirements.txt            # pinned dependency ranges for all four phases
 ├── tests/
 │   ├── test_circuit_cost.py    # 48 tests: counts, validation, scheduling, reports, regression
 │   ├── test_phase2.py          # 30 tests: loading, comparisons, targets, scaling, floor
-│   └── test_phase3.py          # 69 tests: density matrices, channels, gates, metrics, optimal r
+│   ├── test_phase3.py          # 71 tests: density matrices, channels, gates, metrics, optimal r
+│   ├── test_phase4_audit.py    # 20 tests: Hamiltonian, formulas, channels, metrics, pairing
+│   └── test_phase4_sdk.py      # 32 tests: conversion, equivalence, resources, transpilation, noise
+├── PROGRESS.md                 # detailed engineering handover, phase by phase
 ├── README.md                   # this file
 ├── results.csv                 # main data table, 220 rows (+ header), 7 columns
 └── results/
@@ -269,6 +346,19 @@ quantum_computing/
         ├── optimal_r.csv                               # 72 configurations
         ├── phase3_summary.json
         └── phase3_report.md
+    └── phase4/                 # Phase 4 outputs, never mixed with Phases 1-3
+        ├── audit/              # audit_report.md, validation_summary.json,
+        │                       #   independent_reproduction.csv, optimal_r_verification.csv,
+        │                       #   comparison_audit.csv
+        ├── robustness/         # 5 CSVs: initial state, evolution time, noise strength,
+        │                       #   noise components, candidate grid
+        ├── sdk/                # circuit_equivalence.csv, pre/post_transpilation_resources.csv,
+        │                       #   transpilation_metadata.json, sdk_simulation_results.csv
+        ├── hardware_aware/     # connectivity_comparison.csv, compiled_resource_comparison.csv,
+        │                       #   compiled_noise_results.csv
+        ├── figures/            # fig01-...-fig12...png (5 audit + 7 SDK)
+        ├── phase4_summary.json
+        └── phase4_report.md
 ```
 
 `trotter.py` is deliberately a single file (no package, no imports beyond the three libraries) so that it
@@ -1327,3 +1417,294 @@ and checked by `python -m pytest tests/ -q`.*
 
 *Phase 2 (resource trade-offs): every number and figure in §17 is produced by
 `python -m analysis.run_phase2`, with the written report at `results/phase2/phase2_report.md`.*
+
+---
+
+## 19. Independent audit, robustness and Qiskit validation (Phase 4)
+
+Phase 3 passed its own tests. That is not the same as being correct, and it says nothing about whether
+the optimal step count survives a different initial state, a different evolution time, a denser step
+grid, or real compilation. Phase 4 answers those questions with three independent layers:
+
+1. **An audit written from scratch** (`validation/`) that shares no code with `noise/`, `trotter.py` or
+   `circuit_cost.py` except the circuit construction under test.
+2. **Five robustness experiments** on the optimal step count.
+3. **A Qiskit layer** (`quantum_sdk/`) that rebuilds the same circuits, checks they are the same
+   unitary, transpiles them onto documented coupling maps, and re-runs the noise model in Aer.
+
+**Verdict: PASS WITH QUALIFICATIONS.** The physics is correct and reproduces independently to machine
+precision. Three *claims* need re-wording (listed in §19.6).
+
+### 19.1 What the audit verified
+
+`validation/independent.py` re-implements the whole chain - Pauli embedding by explicit index
+arithmetic, the two product formulas from matrix exponentials, the three channels as explicit Pauli
+sums, and the metrics from their definitions - and then compares 187 quantities with the Phase 3
+results. `python -m validation.run_audit` reports:
+
+| Check group | Checks | Result |
+|---|---|---|
+| Hamiltonian and boundary convention | 41 | pass |
+| First- and second-order product formulas | 26 | pass |
+| Density-matrix evolution | 18 | pass |
+| Global depolarising channel | 22 | pass |
+| Single-qubit depolarising channel | 26 | pass |
+| Two-qubit depolarising channel | 30 | pass |
+| Fidelity, purity, trace distance | 24 | pass |
+| **Total** | **187** | **187 pass, largest deviation `2.1e-15`** |
+
+Independently recalculated values: **12 configurations, 144 stored numbers, 0 failures**, largest
+absolute difference `5.8e-15` (tolerance `1e-9`). All **72 stored optimal step counts** are confirmed
+as the argmin of total error over the sweep; the 12 boundary minima are exactly the six noise-free and
+six end-of-circuit runs, all at `r = 512`. The independent pairing of first- against second-order rows
+agrees with `noise.experiments.pair_orders` on **252 of 252 pairs**, with zero winner disagreements.
+
+The reported non-additivity of the three errors is reproduced exactly: the largest
+`|error_total - (error_Trotter + error_noise)|` is `0.24248777` at `n = 6`, second order, `r = 1`. It is
+large there because the noise-induced error is measured against the *Trotter* state, so at `r = 1` the
+two contributions partly cancel; the mean absolute deviation is `0.0050`.
+
+### 19.2 Robustness: does the optimal step count survive?
+
+Five experiments, all under the reference gate-level model unless stated. Selected output:
+
+| Experiment | Question | Result |
+|---|---|---|
+| Initial state | Is the optimum a property of `\|0...0>`? | Interior minimum for all 4 states, but the *location* moves: at `n = 4`, first order, `p = 1e-3`, `r* = 4` for `\|0...0>` and `\|1...1>` and `r* = 6` for `\|+...+>` and the random state. Second order is `r* = 3` throughout. |
+| Evolution time | Does `r*` depend on `t`? | Yes, roughly proportionally: `r* = 3, 4, 8, 16` (first order) and `2, 3, 6, 12` (second order) for `t = 0.5, 1, 2, 4`. Always interior. |
+| Noise strength | Does `r*` fall as noise rises? | 12 of 12 groups non-increasing, 6 of 12 strictly decreasing, **0 violations**. Several flatten at the smallest tested `r`, so "strictly decreasing" is not supported. |
+| Gate classes | Which class dominates? | At equal per-gate error the contribution tracks the gate count, not the gate class: `0.0215` (single-qubit, 28 gates) against `0.0199` (two-qubit, 24 gates) at `n = 4`, `p = 1e-3`. The two classes add to within 1% of the combined run. |
+| Candidate grid | Is the optimum an artefact of the grid? | **3 of 6** reported optima move on a dense integer grid: first order `4 -> 5` at `n = 4, 5, 6` (error `0.0712 -> 0.0693` at `n = 4`); second order stays at `r = 3`. |
+
+**Reading:** the *existence* of a finite interior optimum is robust. The *value* is a best tested
+**discrete** step count that depends on the state, the evolution time and the grid.
+
+### 19.3 Qiskit: the custom circuits are the same unitaries
+
+Qiskit `2.6.2` with `qiskit-aer 0.18.4`. `quantum_sdk.circuit_builder` walks the **Phase 1 gate list**
+and emits `rx`, `rz`, `cx` in the same order - no decomposition is re-derived. Repository qubit 0 is the
+most significant bit, Qiskit's is the least, so `qiskit_qubit = n - 1 - repo_qubit`; that mapping makes
+the two basis indices equal, so unitaries compare with no permutation, and it is asserted numerically in
+the tests.
+
+Comparison is phase-insensitive - `min_phi ||U_custom - e^{i phi} U_Qiskit||_2`, with the optimal phase
+*measured*, not assumed:
+
+| Quantity | Result |
+|---|---|
+| Configurations compared | 36 of 36 pass (`n = 3, 4, 5`; both orders; `r` up to 8) |
+| Largest spectral distance | `8.9e-16` |
+| Largest statevector infidelity | `1.4e-14` |
+| Measured global phase | `~1e-17` (i.e. none beyond round-off) |
+| Pre-transpilation counts vs Phase 1 | 36 of 36 identical, depth also 36 of 36 |
+
+### 19.4 Transpilation, connectivity and hardware-aware cost
+
+Two families, every parameter recorded in `results/phase4/sdk/transpilation_metadata.json`:
+
+* **`A_logical_generic`** - basis `rz`/`rx`/`cx`, optimisation level 0, **no** coupling map, seed 7.
+* **`B_line` / `B_ring` / `B_star`** - same basis, optimisation level 1, seed 7, explicit `CouplingMap`.
+
+| Topology | Max extra CNOTs | Two-qubit inflation | Depth inflation |
+|---|---|---|---|
+| logical (control) | 0 | 1.00x | 1.00x |
+| `line` (`0-1-...-(n-1)`) | **0** | 1.00x | 1.00x |
+| `ring` (line + `(n-1,0)`) | **0** | 1.00x | 1.00x |
+| `star` (all bonds to qubit 0) | **+39** | 1.54x | **2.40x** |
+
+Line and ring are free because the TFIM chain *is* the hardware graph, so the transpiler finds a layout
+with no swaps at all. The star is the deliberate mismatch: every TFIM bond is two hops away, and the
+cost grows with both `n` and `r` (`+21` CNOTs at `n = 4`, `r = 3`; `+39` at `n = 5`, `r = 8`).
+
+**One SDK wrinkle worth knowing.** A routed circuit can return its state in a *permuted* qubit order -
+the transpiler normally accounts for the final layout in the measurement bit mapping, and a
+density-matrix simulation applies no measurement. `quantum_sdk.layout.restore_order` recovers the
+permutation (from the layout metadata when available, otherwise by search) and **verifies** it by
+checking that the noiseless routed state becomes the logical state (residual `~1e-16`). Ignoring this
+step made the star look catastrophically worse than it is: `F = 0.29` instead of `0.94` for `n = 4`,
+second order, almost entirely relabelling.
+
+### 19.5 SDK noise: reconciled, not forced
+
+Aer's `depolarizing_error(p, k)` is the **full-depolarisation** channel `(1-p)rho + p I/d`, which is
+*not* the project's Pauli mixture (`p/3` on one qubit, `p/15` on two). Measured, not assumed: the two
+differ by `3.1e-2` at `p = 0.2`, consistent with `p_aer = 4p/3` (one qubit) and `16p/15` (two qubits) on
+pure product states. Whole-circuit comparisons therefore rebuild the project's channel exactly as an
+explicit Pauli mixture (`noise_check.make_noise_model`), giving agreement at `2.2e-16` per gate and
+**`1.6e-15` for the full noisy density matrix** across 36 configurations. That is an independent
+validation of the custom noise engine - channel definitions, gate placement, ordering and the absence
+of double application.
+
+Under gate-level noise with compiled circuits (`p_1 = p_2 = 1e-3`):
+
+* `line`/`ring` routing costs **exactly zero** in fidelity as well as in gates.
+* `star` routing costs between `-5.5e-5` and `+2.9e-2` in total error, growing with `n` and `r` and in
+  step with the extra two-qubit gates. The one negative value is real physics, not a bug: at `n = 4`,
+  `r = 1` the noiseless fidelity is `0.0580`, *below* the maximally mixed `1/d = 0.0625`, so
+  depolarising noise moves the state towards the target.
+* At an error target of `0.10`, first and second order need the *same* compiled two-qubit count at every
+  `n`; at the stricter `0.06`, second order is cheaper at `n = 3` (12 against 16) and is the only order
+  to reach the target at `n = 5`.
+
+### 19.6 What the audit corrects
+
+Three wording corrections, no code changes to Phases 1-3:
+
+1. **"`r*` decreases monotonically with noise"** -> **non-increasing**: 12 of 12 groups are
+   non-increasing, only 6 strictly; several saturate at the smallest `r` tested.
+2. **"`r*` is nearly independent of system size"** -> true only *within a noise level* and for these
+   three sizes; `r*` shifts by one step between `n = 4, 5, 6` on a denser grid, and it moves with the
+   initial state and roughly proportionally with the evolution time.
+3. **"The optimal step count is `r*`"** -> **"the best tested discrete step count is `r*`"**. No
+   continuous optimisation was performed, and `r = 5, 7, 9, 10, 11` were never simulated in Phase 3.
+
+One defect was found in the *audit* code itself and fixed: `quantum_sdk.equivalence.phase_insensitive`
+rotated by `+arg(<a,b>)` instead of `-arg(<a,b>)`, so it reported the distance at twice the phase offset
+rather than the minimum. Because the measured offset is `~1e-17` for these circuits the reported
+equivalence numbers are unaffected, and the regression test in `tests/test_phase4_sdk.py` pins the
+correct behaviour.
+
+### 19.7 Figures
+
+`results/phase4/figures/` - all twelve inspected visually.
+
+| Figure | Content |
+|---|---|
+| `fig01_initial_state_optimal_r.png` | optimal `r` against initial state and noise level |
+| `fig02_evolution_time_optimal_r.png` | optimal `r` against total evolution time |
+| `fig03_noise_strength_trend.png` | `r*` versus noise strength, gate-level (per-gate) and global (per-step) panels |
+| `fig04_noise_components.png` | single-qubit only / two-qubit only / both, versus `r` |
+| `fig05_candidate_grid.png` | original grid against a dense grid around the optimum |
+| `fig06_custom_vs_sdk_unitary.png` | custom vs Qiskit unitary distance (log scale) |
+| `fig07_logical_vs_transpiled_cnot.png` | logical vs compiled CNOT count per connectivity |
+| `fig08_logical_vs_transpiled_depth.png` | the same for circuit depth |
+| `fig09_swap_overhead.png` | extra CNOTs introduced by routing |
+| `fig10_order_compiled_resources.png` | first vs second order compiled resources on the star |
+| `fig11_fidelity_vs_compiled_cx.png` | error against compiled two-qubit gates |
+| `fig12_logical_vs_hardware_efficiency.png` | logical vs hardware-aware efficiency, per order |
+
+Three figures had defects that were found by inspecting them and then fixed: `fig03` had a boundary
+point squashing the axis and an unreadable 12-entry legend (rebuilt as two panels), `fig04` had a filter
+precedence bug mixing three noise levels into a sawtooth, and `fig10`/`fig11`/`fig12` originally carried
+a title that contradicted their own data or squashed the interesting region behind the `r = 1` points.
+
+### 19.8 What Phase 4 does not claim
+
+* **No hardware.** No job was submitted, no calibration data was used, the coupling maps are
+  illustrative topologies and the noise parameters are abstract. Nothing in §19 is a hardware
+  measurement or a prediction of device performance.
+* **No claim that compilation is free in general.** It is free *here* because the TFIM chain is a line
+  and the transpiler found a swap-free layout. The star is included precisely to show the other case.
+* **Transpiler-specific.** Every compiled count is for Qiskit `2.6.2`, optimisation level 1, seed 7.
+* **Aer's density-matrix method** limits the SDK noise study to `n <= 5`; the audit itself goes to
+  `n = 6`.
+* **Not a replacement.** The Qiskit layer validates the custom simulator. If the two disagreed, the
+  custom simulator would still be the reference and the disagreement would be investigated, not
+  averaged away.
+
+---
+
+## 20. Getting Started for the Next Developer
+
+You have just cloned a research repository with four completed phases. Here is everything you need to
+continue without reading the previous conversation.
+
+### 20.1 What the project does
+
+It quantifies Trotterisation error for a transverse-field Ising chain: how the error scales with the
+step count, what each step costs in gates, what noise does to both, and whether the resulting
+resource advantages survive real compilation. Everything is classical simulation - no quantum hardware
+is involved anywhere in this repository.
+
+### 20.2 What is complete
+
+| Phase | State | Report |
+|---|---|---|
+| 1 - gate counts | complete | §16, `results/circuit_reports.json` |
+| 2 - error vs resources | complete | §17, `results/phase2/phase2_report.md` |
+| 3 - noise and optimal `r` | complete, qualified by Phase 4 | §18, `results/phase3/phase3_report.md` |
+| 4 - audit, robustness, Qiskit | complete | §19, `results/phase4/phase4_report.md` |
+
+### 20.3 The first four commands
+
+```bash
+pip install -r requirements.txt
+python -m pytest tests/ -q              # expect 201 passed in ~20 s
+python -m validation.run_audit          # ~5 min; writes results/phase4/audit + robustness
+python -m quantum_sdk.run_phase4        # ~30 s; writes results/phase4/sdk + hardware_aware
+```
+
+If the tests pass and both drivers exit zero, your environment reproduces the committed state.
+`python circuit_cost.py`, `python -m analysis.run_phase2` and `python -m noise.run_phase3` regenerate
+Phases 1-3 (about 30 s, 5 s and 4 min respectively).
+
+### 20.4 Main entry points
+
+| You want to... | Read / run |
+|---|---|
+| understand the physics | `trotter.py` (single file, read top to bottom) |
+| change the gate decomposition | `circuit_cost.py` -> `build_circuit`, then re-run Phase 1-4 |
+| change a noise channel | `noise/channels.py`, then re-run `validation.run_audit` |
+| change a robustness experiment | `validation/robustness.py` (step grid, seeds, initial states) |
+| change an SDK study | `quantum_sdk/experiments.py` (`NS`, `RS`, `REFERENCE_NOISE`) |
+| change the topology | `quantum_sdk/transpilation.py` -> `topologies` |
+| add a figure | the matching `plotting.py`, and register it in `make_all` |
+
+### 20.5 Where the outputs live
+
+* `results/` - Phases 1-3 data and figures (committed, do not overwrite by hand).
+* `results/phase4/audit/` - `audit_report.md`, `validation_summary.json`, three CSVs.
+* `results/phase4/robustness/` - five CSVs, one per experiment.
+* `results/phase4/sdk/` - equivalence, pre- and post-transpilation resources, metadata, SDK noise.
+* `results/phase4/hardware_aware/` - connectivity, compiled comparison, compiled noise.
+* `results/phase4/figures/` - all twelve Phase 4 figures.
+* `results/phase4/phase4_report.md` and `phase4_summary.json` - the merged report and machine-readable
+  summary (it contains the audit half *and* the SDK half).
+
+### 20.6 Assumptions you must not change casually
+
+1. **Hamiltonian sign and boundary.** `H = -J sum Z_i Z_{i+1} - h sum X_i`, open chain, exactly
+   `n - 1` bonds. A periodic chain changes every number and every figure.
+2. **Qubit order.** Repository qubit 0 is the *most* significant bit. The whole match with Qiskit
+   depends on it; `tests/test_phase4_sdk.py` asserts it.
+3. **Gate-list order.** Everything downstream (noise placement, circuit conversion, gate counts)
+   consumes the chronological gate list from `circuit_cost.build_circuit`. Do not re-order it.
+4. **Noise conventions.** `p/3` (one qubit) and `p/15` (two qubits) are Pauli mixtures, *not* Aer's
+   `depolarizing_error`; `p = 3/4` is fully depolarising for one qubit, `p = 1` is not. §19.5 has the
+   conversion.
+5. **Error references.** Trotter error is measured against the exact state, noise-induced error
+   against the *Trotter* state. They are not additive; do not add them.
+6. **`r*` is discrete.** It is the argmin over simulated candidates on the documented grid. Never
+   report it as a continuous optimum.
+
+### 20.7 What remains to be done
+
+* **Larger systems.** Density matrices cap this at `n ~ 6`. A matrix-product-operator or
+  quantum-trajectory backend in `noise/` would be the natural next step, and the audit engine could be
+  kept as the small-`n` reference.
+* **A real device.** The backend interface sketched in the Phase 4 brief was deliberately not built:
+  no credentials exist and nothing here should imply hardware access. Adding an interface that submits
+  a circuit and retrieves counts is the first step, not a final one.
+* **Correlated noise.** Every channel here is independent per gate. Crosstalk, `T1/T2`, leakage and
+  readout error are all absent, and would move the crossover.
+* **A denser step grid in Phase 3 itself.** Phase 4 showed that `r = 5` beats `r = 4` for first order at
+  `n = 4, 5, 6`. Re-running Phase 3 on the dense grid would remove the caveat rather than document it.
+* **Second-order compiled depth.** The second order keeps its advantage in compiled two-qubit gates
+  but not in depth on a mismatched topology; whether a different routing strategy recovers it is open.
+
+### 20.8 Environment notes
+
+* Windows: the commands above work in PowerShell, `cmd` and Git Bash. Matplotlib is forced onto `Agg`,
+  so nothing needs a display.
+* `PYTHONPATH=.` is only needed if you run a script from outside the repository root; `conftest.py`
+  handles it for pytest.
+* `python -m validation.run_audit` takes about five minutes, almost all of it in the robustness
+  experiments. Use `--skip-robustness` while iterating, and `--no-figures` if you only want the data.
+* Results are deterministic: two consecutive runs produce byte-identical CSVs (the random initial state
+  is seeded with `RANDOM_SEED = 20260522`).
+* `results/` is intentionally committed. It is not in `.gitignore` and must not be added to it - the
+  reports and figures are the deliverable.
+
+*Phase 4 (audit and SDK validation): every number and figure in §19 is produced by
+`python -m validation.run_audit` and `python -m quantum_sdk.run_phase4`, with the written reports at
+`results/phase4/audit/audit_report.md` and `results/phase4/phase4_report.md`.*

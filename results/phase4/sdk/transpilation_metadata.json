@@ -1,0 +1,7238 @@
+[
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0506,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0121,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0062,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0077,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0028,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.006,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0073,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0056,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0032,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0051,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0071,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0057,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0023,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0054,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0072,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.006,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0031,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0077,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0067,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0079,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0025,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0059,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0065,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0055,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0031,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0053,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0047,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0066,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0029,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.006,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0065,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0069,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0029,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0064,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0061,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0062,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0023,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0057,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0069,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0056,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.003,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0057,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0054,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0061,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0026,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0055,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0058,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 0,
+      "2": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      1
+    ],
+    "transpilation_seconds": 0.0055,
+    "num_qubits": 3,
+    "system_size": 3,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.003,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0069,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0064,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 1,
+      "2": 2,
+      "3": 0
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      1
+    ],
+    "transpilation_seconds": 0.0079,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0024,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0053,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0063,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 0,
+      "3": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      1
+    ],
+    "transpilation_seconds": 0.0069,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0032,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0075,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0062,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 1,
+      "2": 0,
+      "3": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      3,
+      2
+    ],
+    "transpilation_seconds": 0.0068,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0023,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0053,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0063,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 0,
+      "3": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      1
+    ],
+    "transpilation_seconds": 0.0065,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0024,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0072,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0057,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 1,
+      "2": 0,
+      "3": 2
+    },
+    "final_layout": [
+      3,
+      0,
+      1,
+      2
+    ],
+    "transpilation_seconds": 0.0085,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0024,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0054,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.007,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 0,
+      "3": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      1
+    ],
+    "transpilation_seconds": 0.0086,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0032,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0062,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0055,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 0,
+      "3": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      1
+    ],
+    "transpilation_seconds": 0.0058,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.002,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0045,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0064,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 0,
+      "3": 1
+    },
+    "final_layout": [
+      0,
+      2,
+      3,
+      1
+    ],
+    "transpilation_seconds": 0.0057,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0019,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0056,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.006,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 0,
+      "3": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      1
+    ],
+    "transpilation_seconds": 0.0072,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0021,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0063,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0056,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 3,
+      "2": 0,
+      "3": 1
+    },
+    "final_layout": [
+      2,
+      0,
+      3,
+      1
+    ],
+    "transpilation_seconds": 0.0062,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0027,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0071,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0053,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 0,
+      "3": 1
+    },
+    "final_layout": [
+      0,
+      2,
+      3,
+      1
+    ],
+    "transpilation_seconds": 0.0072,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0028,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0057,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0064,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 1,
+      "2": 0,
+      "3": 2
+    },
+    "final_layout": [
+      0,
+      1,
+      3,
+      2
+    ],
+    "transpilation_seconds": 0.0072,
+    "num_qubits": 4,
+    "system_size": 4,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0026,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0052,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0047,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 4,
+      "2": 2,
+      "3": 0,
+      "4": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      4,
+      1
+    ],
+    "transpilation_seconds": 0.0076,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.002,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0049,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0507,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 4,
+      "3": 0,
+      "4": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      4,
+      1
+    ],
+    "transpilation_seconds": 0.0084,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0027,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0056,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.005,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 4,
+      "2": 1,
+      "3": 0,
+      "4": 3
+    },
+    "final_layout": [
+      2,
+      0,
+      4,
+      1,
+      3
+    ],
+    "transpilation_seconds": 0.0063,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0034,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0062,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0061,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 4,
+      "3": 0,
+      "4": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      4,
+      2,
+      1
+    ],
+    "transpilation_seconds": 0.0071,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0027,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.007,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.006,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 4,
+      "3": 0,
+      "4": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      4,
+      1
+    ],
+    "transpilation_seconds": 0.0084,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0026,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.006,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.007,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 1,
+      "1": 2,
+      "2": 4,
+      "3": 0,
+      "4": 3
+    },
+    "final_layout": [
+      1,
+      0,
+      4,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0081,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 1,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0023,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0054,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0066,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 4,
+      "3": 0,
+      "4": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      2,
+      4,
+      1
+    ],
+    "transpilation_seconds": 0.0069,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 1
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0024,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.005,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0048,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 4,
+      "2": 1,
+      "3": 0,
+      "4": 3
+    },
+    "final_layout": [
+      2,
+      0,
+      4,
+      1,
+      3
+    ],
+    "transpilation_seconds": 0.0069,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 2
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.002,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.005,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0053,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 4,
+      "1": 2,
+      "2": 1,
+      "3": 0,
+      "4": 3
+    },
+    "final_layout": [
+      4,
+      0,
+      1,
+      2,
+      3
+    ],
+    "transpilation_seconds": 0.0075,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 3
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0028,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0065,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0051,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 3,
+      "1": 2,
+      "2": 4,
+      "3": 0,
+      "4": 1
+    },
+    "final_layout": [
+      3,
+      0,
+      4,
+      2,
+      1
+    ],
+    "transpilation_seconds": 0.0084,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 4
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0026,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0055,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0071,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 2,
+      "1": 1,
+      "2": 4,
+      "3": 0,
+      "4": 3
+    },
+    "final_layout": [
+      2,
+      0,
+      1,
+      4,
+      3
+    ],
+    "transpilation_seconds": 0.0094,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 6
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "A_logical_generic",
+    "description": "generic basis rz/rx/cx, no connectivity constraint, optimiser level 0 (minimal rewrite)",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ideal",
+    "topology_description": "no constraint",
+    "coupling_map_edges": null,
+    "optimization_level": 0,
+    "seed_transpiler": 7,
+    "initial_layout": null,
+    "final_layout": null,
+    "transpilation_seconds": 0.0025,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_line",
+    "description": "routed onto the line topology: linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "line",
+    "topology_description": "linear chain 0-1-2-...-(n-1): exactly the TFIM nearest-neighbour graph",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0058,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_ring",
+    "description": "routed onto the ring topology: closed ring, the line plus an (n-1, 0) edge",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "ring",
+    "topology_description": "closed ring, the line plus an (n-1, 0) edge",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+    },
+    "final_layout": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "transpilation_seconds": 0.0067,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  },
+  {
+    "qiskit_version": "2.6.2",
+    "configuration": "B_star",
+    "description": "routed onto the star topology: star centred on qubit 0: the TFIM bonds are two hops apart",
+    "basis_gates": [
+      "rz",
+      "rx",
+      "cx"
+    ],
+    "topology": "star",
+    "topology_description": "star centred on qubit 0: the TFIM bonds are two hops apart",
+    "coupling_map_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "optimization_level": 1,
+    "seed_transpiler": 7,
+    "initial_layout": {
+      "0": 1,
+      "1": 2,
+      "2": 3,
+      "3": 0,
+      "4": 4
+    },
+    "final_layout": [
+      1,
+      0,
+      3,
+      2,
+      4
+    ],
+    "transpilation_seconds": 0.0079,
+    "num_qubits": 5,
+    "system_size": 5,
+    "trotter_order": 2,
+    "trotter_steps": 8
+  }
+]

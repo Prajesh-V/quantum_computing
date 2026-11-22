@@ -1,0 +1,18 @@
+# Dependencies for the whole project (Phases 1-4).
+#
+#   pip install -r requirements.txt
+#
+# Phases 1-3 need only the first block. The Qiskit block is the Phase 4
+# validation layer: the custom simulator never imports it, so the physics can be
+# reproduced without Qiskit installed. The Phase 4 commands do import it.
+
+numpy>=2.0,<3.0
+scipy>=1.11,<2.0
+matplotlib>=3.7,<4.0
+
+# Phase 4 - independent SDK validation and transpilation analysis
+qiskit>=2.0,<3.0
+qiskit-aer>=0.15,<1.0
+
+# Tests only
+pytest>=7.4
