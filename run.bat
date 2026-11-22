@@ -15,6 +15,9 @@ if /i "%~1"=="--quick" goto set_quick
 if /i "%~1"=="-q" goto set_quick
 if /i "%~1"=="--install" goto set_install
 if /i "%~1"=="-i" goto set_install
+if /i "%~1"=="--interactive" goto run_interactive
+if /i "%~1"=="--input" goto run_interactive
+if /i "%~1"=="-input" goto run_interactive
 if /i "%~1"=="--test" goto set_test
 if /i "%~1"=="-t" goto set_test
 if /i "%~1"=="--help" goto show_help
@@ -24,6 +27,10 @@ if /i "%~1"=="/?" goto show_help
 echo [WARNING] Unrecognized argument: %~1
 shift
 goto parse_args
+
+:run_interactive
+python simulate.py
+exit /b 0
 
 :set_full
 set "MODE=full"
@@ -44,13 +51,6 @@ goto parse_args
 set "TEST_ONLY=1"
 shift
 goto parse_args
-if /i "%~1"=="--help" goto show_help
-if /i "%~1"=="-h" goto show_help
-if /i "%~1"=="/?" goto show_help
-
-echo [WARNING] Unrecognized argument: %~1
-shift
-goto parse_args
 
 :show_help
 echo ==============================================================================
@@ -60,12 +60,13 @@ echo.
 echo Usage: run.bat [options]
 echo.
 echo Options:
-echo   (no arguments)    Run quick verification of all phases and tests (~30s)
-echo   --full, -f        Run full exhaustive simulations, sweeps and figures (~10-12 min)
-echo   --quick, -q       Run quick smoke test mode (default)
-echo   --test, -t        Run the pytest test suite only (225 tests)
-echo   --install, -i     Install Python dependencies from requirements.txt first
-echo   --help, -h        Show this help message
+echo   (no arguments)          Run quick verification of all phases and tests (~30s)
+echo   --interactive, --input  Interactive wizard to input custom parameters and get results
+echo   --full, -f              Run full exhaustive simulations, sweeps and figures (~10-12 min)
+echo   --quick, -q             Run quick smoke test mode (default)
+echo   --test, -t              Run the pytest test suite only (225 tests)
+echo   --install, -i           Install Python dependencies from requirements.txt first
+echo   --help, -h              Show this help message
 echo.
 exit /b 0
 
