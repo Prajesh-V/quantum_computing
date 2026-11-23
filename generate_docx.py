@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Generate IEEE Research Paper in Microsoft Word (.docx) format.
+"""Generate IEEE Research Paper in Microsoft Word (.docx) format with 2-Column Layout.
 
 Adheres strictly to IEEE conference formatting:
-- Times New Roman typography (Title: 24pt, Headings: 10-12pt, Body: 10pt)
-- Abstract and Index Terms
-- Fully styled tables with shaded headers and thin rules
-- High-resolution embedded figures with IEEE captions
-- Algorithm block with box border
-- Properly formatted IEEE references [1]-[16]
+- Page 1 Top: Title & Authors in Single Column (Full Page Width)
+- Section Break (Continuous) -> Body in Two Columns (w:num="2", w:space="360" / 0.25 in)
+- Times New Roman typography (Title: 20pt bold, Headings: 10-11pt, Body: 10pt)
+- Abstract and Keywords at the top of Column 1
+- Sized figures (3.35 in) fitting inside column boundaries with IEEE captions
+- Sized tables (3.35 in) with shaded headers and thin rules
+- Algorithm block fitting column width
+- References [1]-[16] with hanging indent
 """
 
 from __future__ import annotations
@@ -17,6 +19,7 @@ import docx
 from docx.shared import Inches, Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
+from docx.enum.section import WD_SECTION_START
 from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import nsdecls, qn
 
@@ -27,8 +30,8 @@ def set_cell_shading(cell, color_hex: str):
     cell._tc.get_or_add_tcPr().append(parse_xml(shading_xml))
 
 
-def set_cell_margins(cell, top=100, bottom=100, left=150, right=150):
-    """Set inner padding for table cells (in twips, 20 twips = 1 pt)."""
+def set_cell_margins(cell, top=60, bottom=60, left=80, right=80):
+    """Set inner padding for table cells in twips (20 twips = 1 pt)."""
     tcPr = cell._tc.get_or_add_tcPr()
     tcMar = OxmlElement('w:tcMar')
     for m, val in (('top', top), ('bottom', bottom), ('left', left), ('right', right)):
@@ -58,107 +61,126 @@ def set_table_borders(table):
 def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
     doc = docx.Document()
 
-    # 1. Page Setup: 0.75 in margins (standard IEEE)
-    for section in doc.sections:
-        section.top_margin = Inches(0.75)
-        section.bottom_margin = Inches(0.75)
-        section.left_margin = Inches(0.75)
-        section.right_margin = Inches(0.75)
+    # SECTION 1: Page Setup (Title and Authors - Full Width Single Column)
+    sec1 = doc.sections[0]
+    sec1.top_margin = Inches(0.75)
+    sec1.bottom_margin = Inches(0.75)
+    sec1.left_margin = Inches(0.75)
+    sec1.right_margin = Inches(0.75)
+    # Ensure Section 1 is 1 column
+    c1 = sec1._sectPr.find(qn('w:cols'))
+    if c1 is not None:
+        c1.set(qn('w:num'), '1')
 
-    # Base style setup
+    # Typography styles
     normal_style = doc.styles['Normal']
     normal_style.font.name = 'Times New Roman'
     normal_style.font.size = Pt(10)
     normal_style.font.color.rgb = RGBColor(0, 0, 0)
 
-    def add_title(text: str):
-        p = doc.add_paragraph()
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p.paragraph_format.space_before = Pt(0)
-        p.paragraph_format.space_after = Pt(12)
-        run = p.add_run(text)
-        run.font.name = 'Times New Roman'
-        run.font.size = Pt(20)
-        run.font.bold = True
-        return p
+    # 1. Title (Full Width)
+    p_title = doc.add_paragraph()
+    p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_title.paragraph_format.space_before = Pt(0)
+    p_title.paragraph_format.space_after = Pt(8)
+    r_t = p_title.add_run("Error Scaling, Hardware-Aware Transpilation, and Quantum Error Mitigation in Trotterised Spin Chains on NISQ Architectures")
+    r_t.font.name = 'Times New Roman'
+    r_t.font.size = Pt(18)
+    r_t.font.bold = True
 
-    def add_authors(authors_str: str, affil_str: str, contact_str: str):
-        p = doc.add_paragraph()
-        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p.paragraph_format.space_before = Pt(0)
-        p.paragraph_format.space_after = Pt(2)
-        r1 = p.add_run(authors_str)
-        r1.font.size = Pt(11)
-        r1.font.bold = True
+    # 2. Authors (Full Width)
+    p_auth = doc.add_paragraph()
+    p_auth.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_auth.paragraph_format.space_before = Pt(0)
+    p_auth.paragraph_format.space_after = Pt(2)
+    r_a = p_auth.add_run("Anonymous Author(s)")
+    r_a.font.size = Pt(11)
+    r_a.font.bold = True
 
-        p2 = doc.add_paragraph()
-        p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p2.paragraph_format.space_before = Pt(0)
-        p2.paragraph_format.space_after = Pt(2)
-        r2 = p2.add_run(affil_str)
-        r2.font.size = Pt(9.5)
-        r2.font.italic = True
+    p_aff = doc.add_paragraph()
+    p_aff.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_aff.paragraph_format.space_before = Pt(0)
+    p_aff.paragraph_format.space_after = Pt(2)
+    r_af = p_aff.add_run("Department of Computer Science and Quantum Engineering")
+    r_af.font.size = Pt(9.5)
+    r_af.font.italic = True
 
-        p3 = doc.add_paragraph()
-        p3.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p3.paragraph_format.space_before = Pt(0)
-        p3.paragraph_format.space_after = Pt(16)
-        r3 = p3.add_run(contact_str)
-        r3.font.size = Pt(9)
-        r3.font.italic = True
+    p_note = doc.add_paragraph()
+    p_note.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_note.paragraph_format.space_before = Pt(0)
+    p_note.paragraph_format.space_after = Pt(14)
+    r_nt = p_note.add_run("Author details omitted for double-blind peer review")
+    r_nt.font.size = Pt(9)
+    r_nt.font.italic = True
 
+    # SECTION 2: Continuous Break into 2 Columns
+    sec2 = doc.add_section(WD_SECTION_START.CONTINUOUS)
+    sec2.top_margin = Inches(0.75)
+    sec2.bottom_margin = Inches(0.75)
+    sec2.left_margin = Inches(0.75)
+    sec2.right_margin = Inches(0.75)
+
+    # Configure 2 columns with 0.25 in (360 dxa) spacing
+    sectPr2 = sec2._sectPr
+    cols2 = sectPr2.find(qn('w:cols'))
+    if cols2 is not None:
+        cols2.set(qn('w:num'), '2')
+        cols2.set(qn('w:space'), '360')
+    else:
+        cols_xml = f'<w:cols {nsdecls("w")} w:num="2" w:space="360"/>'
+        sectPr2.append(parse_xml(cols_xml))
+
+    # Helper functions for 2-column body
     def add_abstract(abstract_text: str, keywords_text: str):
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-        p.paragraph_format.left_indent = Inches(0.25)
-        p.paragraph_format.right_indent = Inches(0.25)
         p.paragraph_format.space_before = Pt(0)
-        p.paragraph_format.space_after = Pt(6)
+        p.paragraph_format.space_after = Pt(4)
+        p.paragraph_format.line_spacing = 1.0
 
         r_hdr = p.add_run("Abstract— ")
         r_hdr.font.bold = True
-        r_hdr.font.size = Pt(9.5)
+        r_hdr.font.size = Pt(9)
 
         r_txt = p.add_run(abstract_text)
-        r_txt.font.size = Pt(9.5)
+        r_txt.font.size = Pt(9)
         r_txt.font.italic = False
 
         p_kw = doc.add_paragraph()
         p_kw.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-        p_kw.paragraph_format.left_indent = Inches(0.25)
-        p_kw.paragraph_format.right_indent = Inches(0.25)
         p_kw.paragraph_format.space_before = Pt(0)
-        p_kw.paragraph_format.space_after = Pt(14)
+        p_kw.paragraph_format.space_after = Pt(10)
+        p_kw.paragraph_format.line_spacing = 1.0
 
         r_kwhdr = p_kw.add_run("Keywords— ")
         r_kwhdr.font.bold = True
-        r_kwhdr.font.size = Pt(9.5)
+        r_kwhdr.font.size = Pt(9)
 
         r_kwtxt = p_kw.add_run(keywords_text)
-        r_kwtxt.font.size = Pt(9.5)
+        r_kwtxt.font.size = Pt(9)
         r_kwtxt.font.italic = True
 
     def add_heading1(text: str):
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p.paragraph_format.space_before = Pt(14)
-        p.paragraph_format.space_after = Pt(6)
+        p.paragraph_format.space_before = Pt(10)
+        p.paragraph_format.space_after = Pt(4)
         p.paragraph_format.keep_with_next = True
         run = p.add_run(text.upper())
         run.font.name = 'Times New Roman'
-        run.font.size = Pt(11)
+        run.font.size = Pt(10)
         run.font.bold = True
         return p
 
     def add_heading2(text: str):
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-        p.paragraph_format.space_before = Pt(10)
-        p.paragraph_format.space_after = Pt(4)
+        p.paragraph_format.space_before = Pt(8)
+        p.paragraph_format.space_after = Pt(2)
         p.paragraph_format.keep_with_next = True
         run = p.add_run(text)
         run.font.name = 'Times New Roman'
-        run.font.size = Pt(10)
+        run.font.size = Pt(9.5)
         run.font.bold = True
         run.font.italic = True
         return p
@@ -167,36 +189,36 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
         p.paragraph_format.space_before = Pt(0)
-        p.paragraph_format.space_after = Pt(4)
-        p.paragraph_format.line_spacing = 1.05
+        p.paragraph_format.space_after = Pt(3)
+        p.paragraph_format.line_spacing = 1.02
         if indent:
-            p.paragraph_format.first_line_indent = Inches(0.2)
+            p.paragraph_format.first_line_indent = Inches(0.18)
         run = p.add_run(text)
-        run.font.size = Pt(10)
+        run.font.size = Pt(9.5)
         return p
 
     def add_equation(eq_text: str, eq_num: str = ""):
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p.paragraph_format.space_before = Pt(4)
-        p.paragraph_format.space_after = Pt(4)
+        p.paragraph_format.space_before = Pt(3)
+        p.paragraph_format.space_after = Pt(3)
         r = p.add_run(eq_text)
         r.font.italic = True
-        r.font.size = Pt(10)
+        r.font.size = Pt(9)
         if eq_num:
-            r_sp = p.add_run(f"    \t{eq_num}")
+            r_sp = p.add_run(f"    {eq_num}")
             r_sp.font.italic = False
-            r_sp.font.size = Pt(10)
+            r_sp.font.size = Pt(9)
         return p
 
     def add_table_data(title: str, headers: list[str], data_rows: list[list[str]], col_widths: list[float] = None):
         p_title = doc.add_paragraph()
         p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p_title.paragraph_format.space_before = Pt(10)
-        p_title.paragraph_format.space_after = Pt(4)
+        p_title.paragraph_format.space_before = Pt(8)
+        p_title.paragraph_format.space_after = Pt(2)
         p_title.paragraph_format.keep_with_next = True
         r_t = p_title.add_run(title.upper())
-        r_t.font.size = Pt(9)
+        r_t.font.size = Pt(8)
         r_t.font.bold = True
 
         table = doc.add_table(rows=len(data_rows) + 1, cols=len(headers))
@@ -209,12 +231,12 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
             cell = hdr_row.cells[idx]
             cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
             set_cell_shading(cell, "F2F2F2")
-            set_cell_margins(cell, top=120, bottom=120, left=140, right=140)
+            set_cell_margins(cell, top=60, bottom=60, left=50, right=50)
             p = cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             r = p.add_run(text)
             r.font.bold = True
-            r.font.size = Pt(9)
+            r.font.size = Pt(7.5)
 
         # Data Rows
         for r_idx, row in enumerate(data_rows):
@@ -222,11 +244,11 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
             for c_idx, val in enumerate(row):
                 cell = tbl_row.cells[c_idx]
                 cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-                set_cell_margins(cell, top=80, bottom=80, left=140, right=140)
+                set_cell_margins(cell, top=40, bottom=40, left=50, right=50)
                 p = cell.paragraphs[0]
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER if c_idx > 0 else WD_ALIGN_PARAGRAPH.LEFT
                 r = p.add_run(val)
-                r.font.size = Pt(9)
+                r.font.size = Pt(7.5)
 
         if col_widths:
             for row in table.rows:
@@ -235,36 +257,28 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
 
         p_space = doc.add_paragraph()
         p_space.paragraph_format.space_before = Pt(0)
-        p_space.paragraph_format.space_after = Pt(8)
+        p_space.paragraph_format.space_after = Pt(4)
 
-    def add_figure(image_path: str, caption: str, width_in: float = 5.2):
+    def add_figure(image_path: str, caption: str, width_in: float = 3.35):
         if os.path.exists(image_path):
             p_img = doc.add_paragraph()
             p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            p_img.paragraph_format.space_before = Pt(8)
+            p_img.paragraph_format.space_before = Pt(6)
             p_img.paragraph_format.space_after = Pt(2)
             p_img.paragraph_format.keep_with_next = True
             p_img.add_run().add_picture(image_path, width=Inches(width_in))
 
             p_cap = doc.add_paragraph()
-            p_cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p_cap.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
             p_cap.paragraph_format.space_before = Pt(0)
-            p_cap.paragraph_format.space_after = Pt(10)
+            p_cap.paragraph_format.space_after = Pt(8)
+            p_cap.paragraph_format.line_spacing = 1.0
             r = p_cap.add_run(caption)
-            r.font.size = Pt(9)
-            r.font.italic = False
+            r.font.size = Pt(8)
 
     # -------------------------------------------------------------------------
-    # DOCUMENT CONTENT
+    # 2-COLUMN BODY CONTENT
     # -------------------------------------------------------------------------
-    add_title("Error Scaling, Hardware-Aware Transpilation, and Quantum Error Mitigation in Trotterised Spin Chains on NISQ Architectures")
-
-    add_authors(
-        authors_str="Anonymous Author(s)",
-        affil_str="Department of Computer Science and Quantum Engineering",
-        contact_str="Author details omitted for double-blind peer review"
-    )
-
     add_abstract(
         abstract_text=(
             "Digital quantum simulation of many-body quantum systems via Trotter-Suzuki product formulas is a "
@@ -316,7 +330,7 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
         "O(t³/r²) for second-order Strang-Suzuki.\n"
         "2) Hardware Decoherence Error: Increases monotonically with r as cumulative gate count and circuit depth grow linearly.\n"
         "This competition induces a non-monotonic, U-shaped total error landscape possessing an interior optimal step count r*, beyond "
-        "which adding Trotter steps degrades rather than improves the simulated quantum fidelity [8]."
+        "which adding Trotter steps degrades rather than improves simulated quantum fidelity [8]."
     )
 
     # SECTION II
@@ -346,7 +360,7 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
     )
 
     # SECTION III
-    add_heading1("III. Theoretical Framework and Methodology")
+    add_heading1("III. Theoretical Framework")
     add_heading2("A. Hamiltonian Formulation")
     add_body(
         "We consider a one-dimensional spin-1/2 chain with n sites under open boundary conditions (OBC) governed by the Transverse-Field "
@@ -357,7 +371,7 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
         "where J is the exchange coupling, h is the transverse field, and X_i, Z_i are Pauli operators. We split the Hamiltonian into "
         "mutually commuting sub-blocks:"
     )
-    add_equation("A = -J ∑_{i=0}^{n-2} Z_i Z_{i+1},    B = -h ∑_{i=0}^{n-1} X_i", "(2)")
+    add_equation("A = -J ∑ Z_i Z_{i+1},    B = -h ∑ X_i", "(2)")
     add_body("where [A, B] ≠ 0.")
 
     add_heading2("B. Product Formulas and Half-Step Merging")
@@ -371,8 +385,8 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
 
     add_heading2("C. Gate Compilation and Exact Invariants")
     add_body("Each interaction block compiles to elementary NISQ gates:")
-    add_equation("exp(i J τ Z_i Z_{i+1}) = CNOT(i, i+1) · Rz(-2 J τ)_{i+1} · CNOT(i, i+1)", "(5)")
-    add_equation("exp(i h τ X_i) = Rx(-2 h τ)_i", "(6)")
+    add_equation("exp(i J τ ZZ) = CNOT · Rz(-2 J τ) · CNOT", "(5)")
+    add_equation("exp(i h τ X) = Rx(-2 h τ)", "(6)")
     add_body(
         "Theorem 1 (Resource Invariants): For an n-qubit chain with open boundaries, evolved over r Trotter steps with half-step "
         "merging, the exact circuit resources are:"
@@ -388,7 +402,7 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
         "2(n-1)r + 2(n-1) CNOTs. The difference ΔCNOT = 2(n-1) is strictly independent of r."
     )
 
-    add_heading2("D. Open-System Decoherence and Quantum Trajectories")
+    add_heading2("D. Open-System Decoherence and Trajectories")
     add_body(
         "We evaluate gate-level depolarising noise channels as well as continuous thermal relaxation with amplitude damping and "
         "pure dephasing. For large systems (n ≥ 7), we apply the Monte Carlo Wavefunction (MCWF) method where stochastic quantum jumps "
@@ -400,60 +414,60 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
         "ρ(t) = (1/K) ∑ |ψ_k(t)⟩⟨ψ_k(t)| while consuming only O(2ⁿ) memory."
     )
 
-    # ALGORITHM BLOCK
+    # ALGORITHM BLOCK (Sized for single column ~3.35 in)
     p_alg_hdr = doc.add_paragraph()
-    p_alg_hdr.paragraph_format.space_before = Pt(8)
+    p_alg_hdr.paragraph_format.space_before = Pt(6)
     p_alg_hdr.paragraph_format.space_after = Pt(2)
     p_alg_hdr.paragraph_format.keep_with_next = True
-    r_ah = p_alg_hdr.add_run("Algorithm 1: End-to-End Quantum Simulation and Error-Mitigated Evaluation")
+    r_ah = p_alg_hdr.add_run("Algorithm 1: Simulation & Mitigation Pipeline")
     r_ah.font.bold = True
-    r_ah.font.size = Pt(9.5)
+    r_ah.font.size = Pt(8.5)
 
     alg_box = doc.add_table(rows=1, cols=1)
     alg_box.alignment = WD_TABLE_ALIGNMENT.CENTER
     c_alg = alg_box.rows[0].cells[0]
-    c_alg.width = Inches(6.5)
+    c_alg.width = Inches(3.35)
     set_cell_shading(c_alg, "FAFAFA")
-    set_cell_margins(c_alg, top=100, bottom=100, left=150, right=150)
+    set_cell_margins(c_alg, top=60, bottom=60, left=80, right=80)
     p_algtxt = c_alg.paragraphs[0]
     p_algtxt.paragraph_format.space_before = Pt(0)
     p_algtxt.paragraph_format.space_after = Pt(0)
-    p_algtxt.paragraph_format.line_spacing = 1.15
+    p_algtxt.paragraph_format.line_spacing = 1.05
     alg_code = (
-        "Input : System size n, time t, order o ∈ {1, 2}, step count r, noise params (p1, p2, T1, T2)\n"
-        "Output: State fidelity F, energy expectation ⟨H⟩, mitigated energy ⟨H⟩_ZNE\n"
-        "1:  Initialize circuit C ← BuildCircuit(n, r, t, o, merge_half_steps=True)\n"
-        "2:  Compute analytical gate counts CNOT(n, r, o) and logical depth via (7)-(11)\n"
-        "3:  if n ≤ 6 then\n"
-        "4:      Compute exact state |ψ_exact⟩ ← exp(-i H t) |0...0⟩ and ideal Trotter state |ψ_trot⟩\n"
-        "5:      Evolve density matrix ρ_noisy ← ApplyKrausChannels(C, ρ_0, p1, p2, T1, T2)\n"
-        "6:      Compute fidelity F ← ⟨ψ_exact| ρ_noisy |ψ_exact⟩ and Trotter error ε_trot ← 1 - |⟨ψ_exact|ψ_trot⟩|²\n"
-        "7:  else\n"
-        "8:      for k = 1 to K trajectories do\n"
-        "9:          |ψ_k⟩ ← RunStochasticTrajectory(C, |0...0⟩, p1, p2)\n"
-        "10:     end for\n"
-        "11:     F ← (1/K) ∑ |⟨ψ_exact|ψ_k⟩|²,  SEM ← std(F_k) / sqrt(K)\n"
+        "Input : n, t, order o, r, noise (p1, p2, T1, T2)\n"
+        "Output: Fidelity F, ⟨H⟩_raw, ⟨H⟩_ZNE\n"
+        "1: C ← BuildCircuit(n, r, t, o, merge=True)\n"
+        "2: Compute analytical resources via (7)-(11)\n"
+        "3: if n ≤ 6 then\n"
+        "4:   |ψ_ex⟩ ← exp(-iHt)|0⟩, |ψ_tr⟩ ← C|0⟩\n"
+        "5:   ρ_noisy ← ApplyKraus(C, ρ_0, p1, p2, T1, T2)\n"
+        "6:   F ← ⟨ψ_ex| ρ_noisy |ψ_ex⟩\n"
+        "7: else\n"
+        "8:   for k = 1 to K trajectories do\n"
+        "9:     |ψ_k⟩ ← RunTrajectory(C, |0⟩, p1, p2)\n"
+        "10:  end for\n"
+        "11:  F ← (1/K) ∑ |⟨ψ_ex|ψ_k⟩|²\n"
         "12: end if\n"
-        "13: Calibrate readout assignment matrix M via 2ⁿ basis state preparations\n"
-        "14: Measure raw noisy energy ⟨H⟩_raw ← SubmitToHardware(C, shots)\n"
-        "15: Unfold readout counts: p_mit ← ProjectSimplex(M⁻¹ · p_raw) and evaluate ⟨H⟩_readout\n"
+        "13: Calibrate readout matrix M on device\n"
+        "14: ⟨H⟩_raw ← SubmitToHardware(C, shots)\n"
+        "15: p_mit ← ProjectSimplex(M⁻¹ · p_raw)\n"
         "16: for scale factor c ∈ {1, 3, 5} do\n"
-        "17:     C_folded ← ReplaceCNOTWithFolded(C, c)\n"
-        "18:     ⟨H⟩_c ← MeasureWithReadoutMitigation(C_folded, M)\n"
+        "17:   C_fold ← ReplaceCNOTWithFolded(C, c)\n"
+        "18:   ⟨H⟩_c ← MeasureReadoutMit(C_fold, M)\n"
         "19: end for\n"
-        "20: ⟨H⟩_ZNE ← RichardsonExtrapolate({1, 3, 5}, {⟨H⟩_1, ⟨H⟩_3, ⟨H⟩_5})\n"
-        "21: return F, ⟨H⟩_raw, ⟨H⟩_readout, ⟨H⟩_ZNE"
+        "20: ⟨H⟩_ZNE ← RichardsonExtrapolate({⟨H⟩_c})\n"
+        "21: return F, ⟨H⟩_raw, ⟨H⟩_ZNE"
     )
     r_c = p_algtxt.add_run(alg_code)
     r_c.font.name = "Consolas"
-    r_c.font.size = Pt(8.5)
+    r_c.font.size = Pt(7.5)
 
     p_sp = doc.add_paragraph()
     p_sp.paragraph_format.space_before = Pt(0)
-    p_sp.paragraph_format.space_after = Pt(8)
+    p_sp.paragraph_format.space_after = Pt(4)
 
     # SECTION IV
-    add_heading1("IV. Experimental Results and Discussion")
+    add_heading1("IV. Experimental Results")
     add_heading2("A. Analytical Resource Verification")
     add_body(
         "We verified closed-form resource counts across 216 configurations (n ∈ {4, 5, 6}, r ∈ [1, 30000]). In every case, "
@@ -461,8 +475,8 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
     )
 
     add_table_data(
-        title="Table I: Analytical Resource Counts (n = 4, t = 1.0)",
-        headers=["r", "Order", "CNOT Count", "Rz Count", "Total Gates", "2Q Depth"],
+        title="Table I: Analytical Resources (n = 4, t = 1.0)",
+        headers=["r", "Ord", "CNOT", "Rz", "Gates", "2Q D."],
         data_rows=[
             ["1", "1", "6", "3", "13", "6"],
             ["1", "2", "12", "6", "22", "12"],
@@ -471,7 +485,7 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
             ["8", "1", "48", "24", "104", "48"],
             ["8", "2", "54", "27", "113", "54"],
         ],
-        col_widths=[0.6, 0.8, 1.2, 1.0, 1.2, 1.2]
+        col_widths=[0.35, 0.45, 0.65, 0.55, 0.65, 0.70]
     )
 
     add_body(
@@ -486,8 +500,8 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
     )
 
     add_table_data(
-        title="Table II: Dense-Grid Total Error Sweep (n = 4, t = 1.0, p = 1e-3)",
-        headers=["r", "Order 1 Total Err", "O1 CNOT", "Order 2 Total Err", "O2 CNOT"],
+        title="Table II: Dense Grid Sweep (n = 4, t = 1.0, p = 1e-3)",
+        headers=["r", "O1 Error", "O1 CX", "O2 Error", "O2 CX"],
         data_rows=[
             ["1", "9.4198e-01", "6", "8.1417e-01", "12"],
             ["2", "1.7432e-01", "12", "7.4151e-02", "18"],
@@ -497,12 +511,13 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
             ["6", "7.2785e-02", "36", "6.6959e-02", "42"],
             ["8", "8.5848e-02", "48", "8.5412e-02", "54"],
         ],
-        col_widths=[0.6, 1.6, 1.0, 1.6, 1.0]
+        col_widths=[0.35, 0.85, 0.65, 0.85, 0.65]
     )
 
     add_figure(
         image_path="results/phase5/figures/fig13_dense_grid_optima.png",
-        caption="Fig. 1. Total simulated error (1 - F) versus Trotter step count r across a dense integer grid (r ∈ [1, 12]) at noise probability p = 1e-3 for n ∈ {4, 5, 6}. Dense sampling resolves the true global minima (r* = 5 for first order, r* = 3 for second order)."
+        caption="Fig. 1. Total simulated error (1 - F) vs step count r across a dense grid (r ∈ [1, 12]) at p = 1e-3 for n ∈ {4, 5, 6}. Dense sampling resolves the true minima (r* = 5 for first order, r* = 3 for second order).",
+        width_in=3.35
     )
 
     add_body(
@@ -517,8 +532,8 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
     )
 
     add_table_data(
-        title="Table III: Thermal Relaxation Optimum vs Depolarising Noise (t = 1.0)",
-        headers=["n", "Order", "Decoherence Channel", "r*", "Minimum Error"],
+        title="Table III: Relaxation Optimum vs Depol. Noise (t = 1.0)",
+        headers=["n", "Ord", "Decoherence Channel", "r*", "Min Err"],
         data_rows=[
             ["4", "1", "Depolarising (p = 1e-3)", "5", "6.9247e-02"],
             ["4", "1", "Relaxation (T1, T2)", "4", "9.2792e-02"],
@@ -527,22 +542,23 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
             ["5", "1", "Relaxation (T1, T2)", "4", "1.1468e-01"],
             ["5", "2", "Relaxation (T1, T2)", "4", "8.7008e-02"],
         ],
-        col_widths=[0.6, 0.8, 2.2, 0.6, 1.6]
+        col_widths=[0.30, 0.45, 1.25, 0.40, 0.95]
     )
 
     add_figure(
         image_path="results/phase5/figures/fig14_thermal_relaxation_vs_depolarizing.png",
-        caption="Fig. 2. Comparison of Trotter error scaling under continuous Lindblad thermal relaxation (T1 = 50 µs, T2 = 70 µs) versus gate-level depolarising noise (p = 1e-3). Second order maintains an error advantage across all system sizes."
+        caption="Fig. 2. Comparison of Trotter error scaling under continuous Lindblad thermal relaxation (T1 = 50 µs, T2 = 70 µs) vs gate-level depolarising noise (p = 1e-3). Second order maintains an error advantage across all system sizes.",
+        width_in=3.35
     )
 
-    add_heading2("D. Quantum Trajectory Scaling to Large Systems (n = 7, 8, 10)")
+    add_heading2("D. Quantum Trajectory Scaling (n = 7, 8, 10)")
     add_body(
         "Using the MCWF method (K = 60 trajectories), we simulated system sizes beyond the dense matrix limit."
     )
 
     add_table_data(
-        title="Table IV: Quantum Trajectory Scaling Performance (p = 1e-3, t = 1.0, r = 4)",
-        headers=["n", "r", "Order", "Fidelity ± SEM", "Total Error", "Elapsed Time"],
+        title="Table IV: Trajectory Scaling Performance (p = 1e-3, r = 4)",
+        headers=["n", "r", "Ord", "Fidelity ± SEM", "Total Err", "Time"],
         data_rows=[
             ["6", "4", "1", "0.9260 ± 0.0194", "0.0740", "0.56 s"],
             ["6", "4", "2", "0.9649 ± 0.0215", "0.0351", "0.67 s"],
@@ -553,15 +569,16 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
             ["10", "4", "1", "0.8065 ± 0.0363", "0.1935", "2.05 s"],
             ["10", "4", "2", "0.8835 ± 0.0350", "0.1165", "2.11 s"],
         ],
-        col_widths=[0.5, 0.5, 0.8, 1.8, 1.2, 1.2]
+        col_widths=[0.30, 0.30, 0.45, 1.05, 0.65, 0.60]
     )
 
     add_figure(
         image_path="results/phase5/figures/fig15_trajectory_scaling_n8_n10.png",
-        caption="Fig. 3. System scaling of quantum state fidelity under Monte Carlo Wavefunction (MCWF) trajectories for n = 6, 7, 8, 10 qubits. Second order maintains superior state overlap across all tested system sizes."
+        caption="Fig. 3. System scaling of quantum state fidelity under Monte Carlo Wavefunction (MCWF) trajectories for n = 6, 7, 8, 10 qubits. Second order maintains superior state overlap across all tested system sizes.",
+        width_in=3.35
     )
 
-    add_heading2("E. Mock Hardware Execution and Dual Mitigation")
+    add_heading2("E. Hardware Execution and Dual Mitigation")
     add_body(
         "We evaluated 4-qubit TFIM circuits on the Mock Falcon device (exact ground-state energy E_exact = -3.000) using readout "
         "unfolding and Zero-Noise Extrapolation (c ∈ {1, 3, 5})."
@@ -569,18 +586,19 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
 
     add_table_data(
         title="Table V: Hardware Mitigation Energy Estimation (4096 Shots)",
-        headers=["r", "Order", "Raw ⟨H⟩", "Readout Mitigated", "ZNE ⟨H⟩", "Error Reduction"],
+        headers=["r", "Ord", "Raw ⟨H⟩", "Readout Mit.", "ZNE ⟨H⟩", "Error Red."],
         data_rows=[
             ["2", "1", "-2.2183", "-2.2937", "-2.4168", "+25.4%"],
             ["2", "2", "-1.1587", "-1.1759", "-1.7061", "+29.7%"],
             ["4", "2", "-0.6411", "-0.6375", "-1.5326", "+37.8%"],
         ],
-        col_widths=[0.6, 0.8, 1.2, 1.4, 1.2, 1.2]
+        col_widths=[0.30, 0.45, 0.65, 0.70, 0.65, 0.60]
     )
 
     add_figure(
         image_path="results/phase5/figures/fig16_mock_hardware_energy_mitigation.png",
-        caption="Fig. 4. Hamiltonian energy estimation on the Mock Falcon 7-qubit device. Readout error unfolding and Richardson Zero-Noise Extrapolation (c ∈ {1, 3, 5}) mitigate physical noise, recovering true ground-state energy."
+        caption="Fig. 4. Hamiltonian energy estimation on Mock Falcon 7Q. Readout error unfolding and Richardson Zero-Noise Extrapolation (c ∈ {1, 3, 5}) mitigate physical noise, recovering true ground-state energy.",
+        width_in=3.35
     )
 
     add_heading2("F. Topological Transpilation and Sabre Routing")
@@ -590,20 +608,21 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
 
     add_table_data(
         title="Table VI: Transpilation and Routing Comparison (n = 4)",
-        headers=["Topology", "r", "Routing Method", "O1 CNOTs", "O2 CNOTs", "Total Depth", "2Q Depth Ratio"],
+        headers=["Topo", "r", "Method", "O1 CX", "O2 CX", "2Q Ratio"],
         data_rows=[
-            ["Line", "1", "Basic / SABRE", "6", "12", "16", "1.67"],
-            ["Star", "1", "Basic", "15", "30", "37", "2.00"],
-            ["Star", "1", "SABRE", "9", "15", "23", "1.67"],
-            ["Star", "4", "Basic", "60", "75", "94", "1.25"],
-            ["Star", "4", "SABRE", "33", "45", "66", "1.36"],
+            ["Line", "1", "Basic / SABRE", "6", "12", "1.67"],
+            ["Star", "1", "Basic", "15", "30", "2.00"],
+            ["Star", "1", "SABRE", "9", "15", "1.67"],
+            ["Star", "4", "Basic", "60", "75", "1.25"],
+            ["Star", "4", "SABRE", "33", "45", "1.36"],
         ],
-        col_widths=[1.0, 0.5, 1.4, 1.0, 1.0, 1.0, 1.2]
+        col_widths=[0.45, 0.30, 0.95, 0.50, 0.50, 0.65]
     )
 
     add_figure(
         image_path="results/phase5/figures/fig17_sabre_routing_depth_recovery.png",
-        caption="Fig. 5. Transpiled two-qubit circuit depth ratio (O2 / O1) on Linear and Star hardware topologies. SABRE lookahead routing suppresses SWAP insertion overhead on constrained coupling graphs."
+        caption="Fig. 5. Transpiled two-qubit circuit depth ratio (O2 / O1) on Linear and Star hardware topologies. SABRE lookahead routing suppresses SWAP insertion overhead on constrained coupling graphs.",
+        width_in=3.35
     )
 
     # SECTION V
@@ -641,15 +660,16 @@ def build_docx(output_path: str = "IEEE_Research_Paper.docx"):
     for ref in references:
         p_ref = doc.add_paragraph()
         p_ref.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-        p_ref.paragraph_format.left_indent = Inches(0.25)
-        p_ref.paragraph_format.first_line_indent = Inches(-0.25)
+        p_ref.paragraph_format.left_indent = Inches(0.2)
+        p_ref.paragraph_format.first_line_indent = Inches(-0.2)
         p_ref.paragraph_format.space_before = Pt(0)
         p_ref.paragraph_format.space_after = Pt(2)
+        p_ref.paragraph_format.line_spacing = 1.0
         r_rf = p_ref.add_run(ref)
-        r_rf.font.size = Pt(8.5)
+        r_rf.font.size = Pt(8)
 
     doc.save(output_path)
-    print(f"[SUCCESS] Wrote IEEE Research Paper Word Document to {output_path}")
+    print(f"[SUCCESS] Wrote 2-Column IEEE Research Paper Word Document to {output_path}")
 
 
 if __name__ == "__main__":
